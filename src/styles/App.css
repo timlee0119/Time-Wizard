@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,14 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+#wrapper {
+  background-color: #f1f0f0;
+  /* min-height: 100vh; */
+  min-height: 100vh;
+}
+
+#wrapper > .column {
+  max-width: 450px;
 }
