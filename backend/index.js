@@ -4,8 +4,17 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const keys = require('./config/key');
+// load passport settings
+require('./services/passport');
+
+// connect mongoDB Atlas
+mongoose.connect(keys.mongoURI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(
   cookieSession({
@@ -13,6 +22,8 @@ app.use(
     keys: [keys.cookieKey]
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 require('./routes')(app);
 

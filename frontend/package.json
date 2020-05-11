@@ -17,10 +17,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp -r src/chrome build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-chrome-ext": "react-scripts build && cp -r src/chrome build/"
+    "zip": "zip -r build.zip build"
   },
   "eslintConfig": {
     "extends": "react-app"
