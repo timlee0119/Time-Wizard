@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 import Landing from './Landing';
-import '../styles/App.css';
 
 class App extends Component {
   componentDidMount() {
@@ -23,20 +22,5 @@ class App extends Component {
     );
   }
 }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <h1>Intervention</h1>
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <h2>Stop, or Lose.</h2>
-//         <a className="App-link" href="https://reactjs.org">
-//           Login with Google
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;

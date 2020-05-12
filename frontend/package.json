@@ -18,6 +18,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && cp -r src/chrome build/",
+    "chrome": "cp -r src/chrome build/ && cp public/popup.html build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "zip": "zip -r build.zip build"

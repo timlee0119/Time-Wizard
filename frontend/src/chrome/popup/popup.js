@@ -1,5 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-
-ReactDOM.render(<App />, document.getElementById('#popup_root'));
+console.log('popup.js loaded');
+window.onload = function () {
+  document
+    .querySelector('#btn-to-homepage')
+    .addEventListener('click', function () {
+      chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
+    });
+};
