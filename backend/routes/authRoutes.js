@@ -1,10 +1,12 @@
 const passport = require('passport');
+const extensionOrigin = require('../config/key').extensionOrigin;
 
 module.exports = app => {
   app.get(
     '/login/google',
     passport.authenticate('google', {
-      scope: ['profile', 'email']
+      scope: ['profile', 'email'],
+      prompt: 'select_account'
     })
   );
 
@@ -12,16 +14,18 @@ module.exports = app => {
     '/login/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      res.redirect('/');
+      // res.redirect(`${extensionOrigin}/index.html`);
+      res.redirect('/login_success');
     }
   );
 
-  app.post('/logout', (req, res) => {
+  app.get('/logout', (req, res) => {
     req.logout();
-    res.redirect('/');
+    res.send('Logout success!!');
   });
 
   app.get('/me', (req, res) => {
+    console.log(req.user);
     res.send(req.user);
   });
 };

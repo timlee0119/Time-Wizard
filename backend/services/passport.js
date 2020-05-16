@@ -5,7 +5,8 @@ const keys = require('../config/key');
 const User = require('../models/User');
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  console.log(user);
+  done(null, user._id);
 });
 
 passport.deserializeUser((id, done) => {
@@ -24,16 +25,20 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
+        console.log(profile);
         const existingUser = await User.findOne({ googleId: profile.id });
         if (existingUser) {
           return done(null, existingUser);
         }
-        const user = new User({ googleId: profile.id }).save();
+        const user = await new User({
+          googleId: profile.id,
+          name: profile._json.name,
+          picture: profile._json.picture
+        }).save();
         done(null, user);
-
       } catch (error) {
         console.error(`Error happens in passport.use callback: ${error}`);
       }
     }
   )
-)
+);
