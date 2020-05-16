@@ -43,10 +43,13 @@ async function updatePopupPage() {
   chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'complete') {
       console.log('tab changed, url: ' + tab.url);
-      console.log(`${SERVER_BASE_URL}/login_success`);
       if (tab.url.includes(`${SERVER_BASE_URL}/login_success`)) {
         updatePopupPage();
-        chrome.tabs.remove(tabId);
+        // chrome.tabs.remove(tabId);
+        // chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
+        chrome.tabs.update(tabId, {
+          url: chrome.extension.getURL('index.html')
+        });
       }
     }
   });

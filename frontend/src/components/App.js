@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Route } from 'react-router-dom';
 
-import WelcomePage from './WelcomePage';
+import DashboardPage from './DashboardPage';
 import CreateMissonPage from './CreateMissionPage';
 import JoinMissionPage from './JoinMissionPage';
 
@@ -21,7 +21,7 @@ class App extends Component {
       // </div>
       <div>
         <HashRouter>
-          <Route path="/" exact component={WelcomePage} />
+          <Route path="/" exact component={DashboardPage} />
           <Route path="/createMission" component={CreateMissonPage} />
           <Route path="/joinMission" component={JoinMissionPage} />
         </HashRouter>

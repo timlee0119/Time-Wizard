@@ -4,7 +4,7 @@ const ParticipantSchema = require('./Participant').schema;
 const missionSchema = new mongoose.Schema({
   name: { type: String, required: true },
   days: { type: Number, required: true },
-  fund: { type: Number, required: true },
+  money: { type: Number, required: true },
   participants: {
     type: [ParticipantSchema],
     validate: [validateParticipants, 'Participants length should be 1 or 2']
