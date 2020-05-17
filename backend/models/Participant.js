@@ -13,7 +13,7 @@ const participantSchema = new Schema({
     ]
   },
   limitTime: { type: Number, required: true }, // seconds
-  todayUsage: { type: Number, required: true } // seconds
+  todayUsage: { type: Number, default: 0 } // seconds
 });
 
 function validateLimitedWebsites(val) {

@@ -1,5 +1,4 @@
 const passport = require('passport');
-const extensionOrigin = require('../config/key').extensionOrigin;
 
 module.exports = app => {
   app.get(
@@ -14,7 +13,6 @@ module.exports = app => {
     '/login/google/callback',
     passport.authenticate('google'),
     (req, res) => {
-      // res.redirect(`${extensionOrigin}/index.html`);
       res.redirect('/login_success');
     }
   );

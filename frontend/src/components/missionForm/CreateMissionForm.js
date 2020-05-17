@@ -8,23 +8,33 @@ class CreateMissionForm extends Component {
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
-        <Field name="name" type="text" label="任務名稱" component={FormField} />
-        <Field name="days" type="text" label="執行天數" component={FormField} />
+        <Field
+          name="name"
+          type="text"
+          label="任務名稱："
+          component={FormField}
+        />
+        <Field
+          name="days"
+          type="text"
+          label="執行天數："
+          component={FormField}
+        />
         <Field
           name="limitTime"
           type="text"
-          label="單日限制時數"
+          label="單日限制時間："
           component={FormField}
         />
         <Field
           name="money"
           type="text"
-          label="約定金額"
+          label="約定金額："
           component={FormField}
         />
         <FieldArray
           name="limitedWebsites"
-          label="限制網站"
+          label="限制網站："
           component={FormFieldArray}
         />
         <button type="submit">確認</button>
@@ -44,6 +54,7 @@ function validate(values) {
 export default reduxForm({
   form: 'createMissionForm',
   validate,
+  destroyOnUnmount: false,
   initialValues: {
     limitedWebsites: ['']
   }

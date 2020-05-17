@@ -6,6 +6,10 @@ import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import App from './components/App';
 
+// only for testing!!!!!!!!!!!!!!!!!!!!!
+import axios from './utils/axios';
+window.axios = axios;
+
 const store = createStore(
   reducers,
   {},
