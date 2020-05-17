@@ -1,4 +1,5 @@
 const passport = require('passport');
+const requireLogin = require('../middlewares/requireLogin');
 
 module.exports = app => {
   app.get(
@@ -22,8 +23,13 @@ module.exports = app => {
     res.send('Logout success!!');
   });
 
-  app.get('/me', (req, res) => {
-    console.log(req.user);
-    res.send(req.user);
+  app.get('/me', requireLogin, async (req, res) => {
+    try {
+      await req.user.populate('mission').execPopulate();
+      res.send(req.user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send();
+    }
   });
 };

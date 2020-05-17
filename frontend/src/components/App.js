@@ -1,33 +1,51 @@
 import React, { Component } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { Router, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import DashboardPage from './DashboardPage';
+import WelcomePage from './WelcomePage';
 import CreateMissonPage from './CreateMissionPage';
 import JoinMissionPage from './JoinMissionPage';
+import MissionPage from './MissionPage';
+import * as actions from '../actions';
+import history from '../utils/history';
 
 class App extends Component {
   componentDidMount() {
     // do data fetching
+    this.props.fetchUser();
   }
 
+  onlyWhenNoMission = component => {
+    return this.props.auth.mission ? <Redirect to="/mission" /> : component;
+  };
+
   render() {
+    if (!this.props.auth) {
+      return <div>Loading...</div>;
+    }
     return (
-      // <div id="wrapper" className="ui middle aligned center aligned grid">
-      //   <div className="column">
-      //     <HashRouter>
-      //       <Route path="/" exact component={Landing} />
-      //     </HashRouter>
-      //   </div>
-      // </div>
       <div>
-        <HashRouter>
-          <Route path="/" exact component={DashboardPage} />
-          <Route path="/createMission" component={CreateMissonPage} />
-          <Route path="/joinMission" component={JoinMissionPage} />
-        </HashRouter>
+        <Router history={history}>
+          <Route
+            path="/"
+            exact
+            render={() => this.onlyWhenNoMission(<WelcomePage />)}
+          />
+          <Route
+            path="/createMission"
+            render={() => this.onlyWhenNoMission(<CreateMissonPage />)}
+          />
+          <Route
+            path="/joinMission"
+            render={() => this.onlyWhenNoMission(<JoinMissionPage />)}
+          />
+          <Route path="/mission" component={MissionPage} />
+        </Router>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = ({ auth }) => ({ auth });
+
+export default connect(mapStateToProps, actions)(App);

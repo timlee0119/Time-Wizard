@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import orangeGhost from '../images/welcome_orange.png';
 import blueGhost from '../images/welcome_blue.png';
 
-const DashboardPage = ({ history }) => {
+const WelcomePage = ({ history }) => {
   // const onCreateMissionClick = useCallback(() => {
   //   history.push('/createMission');
   // }, [history]);
@@ -39,4 +39,4 @@ const DashboardPage = ({ history }) => {
   );
 };
 
-export default DashboardPage;
+export default WelcomePage;

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const morganBody = require('morgan-body');
 const cors = require('cors');
 const keys = require('./config/key');
 // load passport settings
@@ -15,13 +16,26 @@ mongoose.connect(keys.mongoURI, {
 });
 
 const app = express();
-app.use(
-  cors({
-    origin: keys.extensionOrigin,
-    credentials: true
-  })
-);
+
 app.use(bodyParser.json());
+
+// hook morganBody to express app
+morganBody(app);
+
+// localhost only for develop
+const whitelist = [keys.extensionOrigin, 'http://localhost:3000'];
+const corsOptions = {
+  origin: function (origin, cb) {
+    if (origin === undefined || whitelist.indexOf(origin) !== -1) {
+      cb(null, true);
+    } else {
+      cb(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+};
+app.use(cors(corsOptions));
+
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,

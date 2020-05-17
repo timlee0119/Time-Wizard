@@ -12,6 +12,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongoose": "^5.9.13",
+    "morgan-body": "^2.4.8",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0"
   },

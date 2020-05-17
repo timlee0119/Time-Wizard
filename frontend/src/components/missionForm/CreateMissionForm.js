@@ -20,10 +20,11 @@ class CreateMissionForm extends Component {
           label="執行天數："
           component={FormField}
         />
+        {/* Remember to change value in seconds */}
         <Field
           name="limitTime"
           type="text"
-          label="單日限制時間："
+          label="單日限制時間（秒）："
           component={FormField}
         />
         <Field

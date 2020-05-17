@@ -9,7 +9,7 @@ module.exports = app => {
     const mission = new Mission({
       name,
       days,
-      money,
+      money: money * 2, // two participants contributes money
       participants: [
         {
           _user: req.user.id,
@@ -21,12 +21,12 @@ module.exports = app => {
     });
 
     try {
-      req.user.currentMissionId = mission._id;
+      req.user.mission = mission._id;
       await mission.save();
       await req.user.save();
-      res.send(mission);
+      res.send(req.user);
     } catch (error) {
-      req.send(400).send(error);
+      res.status(400).send(error);
     }
   });
 };

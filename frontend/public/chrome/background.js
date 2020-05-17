@@ -1,6 +1,6 @@
 const SERVER_BASE_URL = 'http://localhost:5000';
 
-async function getUserData() {
+async function fetchUserData() {
   try {
     var promise = await fetch(`${SERVER_BASE_URL}/me`, {
       credentials: 'include'
@@ -18,7 +18,7 @@ async function getUserData() {
 }
 
 async function updatePopupPage() {
-  const userData = await getUserData();
+  const userData = await fetchUserData();
   console.log('updatePopupPage(): userData: ', userData);
   if (!userData) {
     // User is not logged in

@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import * as actions from '../actions';
 import CreateMissionForm from './missionForm/CreateMissionForm';
 import orangeHeader from '../images/header_organge.png';
 
 class CreateMissionPage extends Component {
   onFormSubmit = formValues => {
-    console.log(formValues);
+    this.props.submitCreateMission(formValues);
   };
   render() {
     return (
@@ -18,4 +20,4 @@ class CreateMissionPage extends Component {
   }
 }
 
-export default withRouter(CreateMissionPage);
+export default connect(null, actions)(CreateMissionPage);

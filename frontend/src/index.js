@@ -5,10 +5,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import reducers from './reducers';
 import App from './components/App';
-
-// only for testing!!!!!!!!!!!!!!!!!!!!!
-import axios from './utils/axios';
-window.axios = axios;
+import './styles/index.css';
 
 const store = createStore(
   reducers,
