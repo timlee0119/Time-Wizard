@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './widgets/Card';
+import Card from '../widgets/Card';
 
 const MissionInfoBlock = ({ picture, participant }) => {
   return (

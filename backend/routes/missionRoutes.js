@@ -19,14 +19,38 @@ module.exports = app => {
         }
       ]
     });
-
     try {
-      req.user.mission = mission._id;
       await mission.save();
-      await req.user.save();
+      await req.user.updateMissionAndPopulate(mission);
+      console.log(req.user);
       res.send(req.user);
     } catch (error) {
-      res.status(400).send(error);
+      res.status(422).send({ error });
+    }
+  });
+
+  app.patch('/missions', requireLogin, requireNoMission, async (req, res) => {
+    console.log(req.body);
+    const { code, limitTime, limitedWebsites } = req.body;
+    const buf = new Buffer.from(code, 'base64');
+    const missionId = buf.toString();
+    try {
+      const mission = await Mission.findById(missionId);
+      if (!mission) {
+        res.status(404).send();
+      } else {
+        mission.participants.push({
+          _user: req.user.id,
+          limitTime,
+          limitedWebsites
+        });
+        await mission.save();
+        await req.user.updateMissionAndPopulate(mission);
+        res.send(req.user);
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ error });
     }
   });
 };

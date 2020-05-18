@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import MissionInfoBlock from './MissionInfoBlock';
-import MissionInviteBlock from './MissionInviteBlock';
+import MissionInfoBlock from './missionBlock/MissionInfoBlock';
+import MissionInviteBlock from './missionBlock/MissionInviteBlock';
 import profileBlue from '../images/profile_blue.png';
 import profileOrange from '../images/profile_orange.png';
 

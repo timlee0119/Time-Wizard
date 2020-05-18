@@ -8,20 +8,44 @@ export const fetchUser = () => async dispatch => {
     console.log('fetchUser: ', res.data);
     dispatch({ type: FETCH_USER, payload: res.data });
   } catch (error) {
-    console.log(error);
-    if (error.response.status === 401) {
-      // if not logged in, redirect to login page
+    // if not logged in, redirect to login page
+    if (error.response && error.response.status === 401) {
       window.location.replace(`${BASE_URL}/login/google`);
     } else {
-      console.error(error.response);
+      console.error(error);
     }
   }
 };
 
 export const submitCreateMission = formValues => async dispatch => {
-  console.log('submitCreateMission: ', formValues);
-  const res = await axios.post('/missions', formValues);
-  console.log('submitCreateMission response: ', res);
-  dispatch({ type: FETCH_USER, payload: res.data });
-  history.push('/mission');
+  try {
+    console.log('submitCreateMission: ', formValues);
+    const res = await axios.post('/missions', formValues);
+    console.log('submitCreateMission response: ', res);
+    dispatch({ type: FETCH_USER, payload: res.data });
+    alert('創建任務成功！');
+    history.push('/mission');
+  } catch (error) {
+    alert('創建任務失敗');
+    console.error(error.response);
+  }
+};
+
+export const submitJoinMission = formValues => async dispatch => {
+  console.log('submitJoinMission: ', formValues);
+  try {
+    const res = await axios.patch('/missions', formValues);
+    console.log('submitJoinMission response: ', res);
+    dispatch({ type: FETCH_USER, payload: res.data });
+    alert('加入任務成功！');
+    history.push('/mission');
+  } catch (error) {
+    // mission code not found!
+    if (error.response && error.response.status === 404) {
+      alert('請輸入正確的任務代碼唷！');
+    } else {
+      alert('加入任務失敗');
+      console.error(error);
+    }
+  }
 };

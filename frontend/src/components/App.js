@@ -15,9 +15,17 @@ class App extends Component {
     this.props.fetchUser();
   }
 
-  onlyWhenNoMission = component => {
-    return this.props.auth.mission ? <Redirect to="/mission" /> : component;
+  onlyWhenMission = (hasMission, component) => {
+    if (hasMission) {
+      return this.props.auth.mission ? component : <Redirect to="/" />;
+    } else {
+      return this.props.auth.mission ? <Redirect to="/mission" /> : component;
+    }
   };
+
+  // onlyWhenNoMission = component => {
+  //   return this.props.auth.mission ? <Redirect to="/mission" /> : component;
+  // };
 
   render() {
     if (!this.props.auth) {
@@ -29,17 +37,20 @@ class App extends Component {
           <Route
             path="/"
             exact
-            render={() => this.onlyWhenNoMission(<WelcomePage />)}
+            render={() => this.onlyWhenMission(false, <WelcomePage />)}
           />
           <Route
             path="/createMission"
-            render={() => this.onlyWhenNoMission(<CreateMissonPage />)}
+            render={() => this.onlyWhenMission(false, <CreateMissonPage />)}
           />
           <Route
             path="/joinMission"
-            render={() => this.onlyWhenNoMission(<JoinMissionPage />)}
+            render={() => this.onlyWhenMission(false, <JoinMissionPage />)}
           />
-          <Route path="/mission" component={MissionPage} />
+          <Route
+            path="/mission"
+            render={() => this.onlyWhenMission(true, <MissionPage />)}
+          />
         </Router>
       </div>
     );

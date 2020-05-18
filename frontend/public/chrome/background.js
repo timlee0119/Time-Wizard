@@ -17,9 +17,9 @@ async function fetchUserData() {
   return result;
 }
 
-async function updatePopupPage() {
+async function updateUserStatus() {
   const userData = await fetchUserData();
-  console.log('updatePopupPage(): userData: ', userData);
+  console.log('updateUserStatus(): userData: ', userData);
   if (!userData) {
     // User is not logged in
     // warning: setPopup is asynchronous,
@@ -44,7 +44,7 @@ async function updatePopupPage() {
     if (changeInfo.status === 'complete') {
       console.log('tab changed, url: ' + tab.url);
       if (tab.url.includes(`${SERVER_BASE_URL}/login_success`)) {
-        updatePopupPage();
+        updateUserStatus();
         // chrome.tabs.remove(tabId);
         // chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
         chrome.tabs.update(tabId, {
@@ -55,5 +55,5 @@ async function updatePopupPage() {
   });
 
   // determine what popup page should show
-  updatePopupPage();
+  updateUserStatus();
 })();
