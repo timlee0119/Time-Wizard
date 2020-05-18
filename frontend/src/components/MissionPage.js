@@ -23,23 +23,40 @@ class MissionPage extends Component {
     };
   }
 
+  renderStartButton() {
+    if (!this.props.auth.mission.startTime) {
+      if (this.state.friend) {
+        return this.state.me.owner ? (
+          <button>立刻開始</button>
+        ) : (
+          <button disabled={true}>等待夥伴開始</button>
+        );
+      } else {
+        return <button disabled={true}>等待夥伴加入</button>;
+      }
+    }
+  }
+
   render() {
     return (
       <div>
         <h1>{this.props.auth.mission.name}</h1>
         <h3>任務目前進度</h3>
-        <MissionInfoBlock picture={profileBlue} participant={this.state.me} />
-        {this.state.friend ? (
-          <MissionInfoBlock
-            picture={profileOrange}
-            participant={this.state.friend}
-          />
-        ) : (
-          <MissionInviteBlock
-            picture={profileOrange}
-            code={this.props.auth.mission.code}
-          />
-        )}
+        {this.renderStartButton()}
+        <div>
+          <MissionInfoBlock picture={profileBlue} participant={this.state.me} />
+          {this.state.friend ? (
+            <MissionInfoBlock
+              picture={profileOrange}
+              participant={this.state.friend}
+            />
+          ) : (
+            <MissionInviteBlock
+              picture={profileOrange}
+              code={this.props.auth.mission.code}
+            />
+          )}
+        </div>
       </div>
     );
   }

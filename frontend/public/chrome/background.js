@@ -5,14 +5,13 @@ async function fetchUserData() {
     var promise = await fetch(`${SERVER_BASE_URL}/me`, {
       credentials: 'include'
     });
-  } catch (error) {
-    throw 'Server is down';
-  }
-  try {
     var result = await promise.json();
+    if (result.error) {
+      return null;
+    }
   } catch (error) {
-    console.log('User is not logged in');
-    return null;
+    console.error(error);
+    throw 'Server is down';
   }
   return result;
 }
@@ -43,13 +42,24 @@ async function updateUserStatus() {
   chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     if (changeInfo.status === 'complete') {
       console.log('tab changed, url: ' + tab.url);
+      // redirect when login succeed
       if (tab.url.includes(`${SERVER_BASE_URL}/login_success`)) {
         updateUserStatus();
-        // chrome.tabs.remove(tabId);
-        // chrome.tabs.create({ url: chrome.extension.getURL('index.html') });
         chrome.tabs.update(tabId, {
           url: chrome.extension.getURL('index.html')
         });
+      }
+      // close logout logout and current open extension pages
+      if (tab.url.includes(`${SERVER_BASE_URL}/logout`)) {
+        updateUserStatus();
+        chrome.tabs.query(
+          { url: `chrome-extension://${chrome.runtime.id}/*` },
+          tabs => {
+            tabs.forEach(tab => {
+              chrome.tabs.remove(tab.id);
+            });
+          }
+        );
       }
     }
   });
