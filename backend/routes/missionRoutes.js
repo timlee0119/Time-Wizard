@@ -30,7 +30,6 @@ module.exports = app => {
   });
 
   app.patch('/missions', requireLogin, requireNoMission, async (req, res) => {
-    console.log(req.body);
     const { code, limitTime, limitedWebsites } = req.body;
     const buf = new Buffer.from(code, 'base64');
     const missionId = buf.toString();
@@ -51,6 +50,15 @@ module.exports = app => {
     } catch (error) {
       console.error(error);
       res.status(500).send({ error });
+    }
+  });
+
+  app.post('/missions/start', requireLogin, async (req, res) => {
+    if (req.user.mission) {
+      await req.user.populate('mission').execPopulate();
+      req.user.mission.startTime = new Date();
+      await req.user.mission.save();
+      res.send({ mission: req.user.mission });
     }
   });
 };

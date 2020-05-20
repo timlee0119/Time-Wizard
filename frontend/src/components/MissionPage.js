@@ -1,5 +1,7 @@
+/* global chrome */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from '../utils/axios';
 import MissionInfoBlock from './missionBlock/MissionInfoBlock';
 import MissionInviteBlock from './missionBlock/MissionInviteBlock';
 import profileBlue from '../images/profile_blue.png';
@@ -23,17 +25,27 @@ class MissionPage extends Component {
     };
   }
 
+  onStartClick = async () => {
+    const res = await axios.post('/missions/start');
+    console.log(res);
+    chrome.runtime.sendMessage({ type: "startMission" }, function (response) {
+      console.log(response);
+    });
+  }
+
   renderStartButton() {
     if (!this.props.auth.mission.startTime) {
       if (this.state.friend) {
         return this.state.me.owner ? (
-          <button>立刻開始</button>
+          <button onClick={this.onStartClick}>立刻開始</button>
         ) : (
-          <button disabled={true}>等待夥伴開始</button>
-        );
+            <button disabled={true}>等待夥伴開始</button>
+          );
       } else {
         return <button disabled={true}>等待夥伴加入</button>;
       }
+    } else {
+      return <p>任務已經開始囉！！！</p>
     }
   }
 
@@ -51,11 +63,11 @@ class MissionPage extends Component {
               participant={this.state.friend}
             />
           ) : (
-            <MissionInviteBlock
-              picture={profileOrange}
-              code={this.props.auth.mission.code}
-            />
-          )}
+              <MissionInviteBlock
+                picture={profileOrange}
+                code={this.props.auth.mission.code}
+              />
+            )}
         </div>
       </div>
     );

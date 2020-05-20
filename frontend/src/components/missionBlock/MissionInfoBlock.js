@@ -12,7 +12,7 @@ const MissionInfoBlock = ({ picture, participant }) => {
       <p>每日限制時數</p>
       {participant.limitTime}
       <p>限制網站</p>
-      {participant.limitedWebsites.map(w => w)}
+      {participant.limitedWebsites.map(w => <div>{w}</div>)}
       <p>使用時數趨勢</p>
       <p>目前共同帳戶基金</p>
     </Card>
