@@ -13,12 +13,27 @@ const participantSchema = new Schema({
     ]
   },
   limitTime: { type: Number, required: true }, // seconds
-  todayUsage: { type: Number, default: 0 } // seconds
+  // todayUsage: { type: Number, default: 0 } // seconds
+  usageHistory: {
+    type: [{ seconds: Number }]
+  }
 });
 
 function validateLimitedWebsites(val) {
   return val.length > 0;
 }
+
+function getHostname(url) {
+  url = url.replace(/\/$/, '');
+  return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
+}
+
+participantSchema.pre('save', function (next) {
+  for (var i in this.limitedWebsites) {
+    this.limitedWebsites[i] = getHostname(this.limitedWebsites[i]);
+  }
+  next();
+});
 
 const Participant = mongoose.model('Participant', participantSchema);
 

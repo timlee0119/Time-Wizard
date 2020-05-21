@@ -1,4 +1,6 @@
-const express = require('express');
+const app = require('express')();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -15,13 +17,9 @@ mongoose.connect(keys.mongoURI, {
   useNewUrlParser: true
 });
 
-const app = express();
-
 app.use(bodyParser.json());
-
 // hook morganBody to express app
 morganBody(app);
-
 // localhost only for develop
 const whitelist = [keys.extensionOrigin, 'http://localhost:3000'];
 const corsOptions = {
@@ -47,10 +45,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Route handlers
 require('./routes')(app);
 
+// socket.io handlers
+require('./services/io')(io);
+
 const PORT = process.env.PORT || 5000;
-app
+server
   .listen(PORT, () => console.log(`Server started at port ${PORT}`))
   .on('error', e => {
     console.error(`Error happened when binding port: ${e.message}`);

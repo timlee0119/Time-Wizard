@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "chrome": "cp -r public/chrome/ build/",
+    "chrome": "cp -r public/chrome build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "zip": "zip -r build.zip build"

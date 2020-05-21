@@ -14,7 +14,8 @@
     "mongoose": "^5.9.13",
     "morgan-body": "^2.4.8",
     "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.3"

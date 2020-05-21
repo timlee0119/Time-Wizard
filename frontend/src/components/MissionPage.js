@@ -21,35 +21,41 @@ class MissionPage extends Component {
     });
     this.state = {
       me,
-      friend
+      friend,
+      missionStarted: !!this.props.auth.mission.startTime // should always be false now
     };
   }
 
   onStartClick = async () => {
     const res = await axios.post('/missions/start');
     console.log(res);
-    chrome.runtime.sendMessage({ type: "startMission" }, function (response) {
-      console.log(response);
+    const that = this;
+    chrome.runtime.sendMessage({ type: 'startMission' }, function (response) {
+      console.log('startMission response: ', response);
+      if (response.error) {
+        alert('開始任務失敗！');
+      } else {
+        that.setState({ missionStarted: true });
+      }
     });
-  }
+  };
 
   renderStartButton() {
-    if (!this.props.auth.mission.startTime) {
-      if (this.state.friend) {
-        return this.state.me.owner ? (
-          <button onClick={this.onStartClick}>立刻開始</button>
-        ) : (
-            <button disabled={true}>等待夥伴開始</button>
-          );
-      } else {
-        return <button disabled={true}>等待夥伴加入</button>;
-      }
+    if (this.state.friend) {
+      return this.state.me.owner ? (
+        <button onClick={this.onStartClick}>立刻開始</button>
+      ) : (
+        <button disabled={true}>等待夥伴開始</button>
+      );
     } else {
-      return <p>任務已經開始囉！！！</p>
+      return <button disabled={true}>等待夥伴加入</button>;
     }
   }
 
   render() {
+    if (this.state.missionStarted) {
+      return <div>任務已經開始囉！現在可以點選插件圖示，開始監控使用情形</div>;
+    }
     return (
       <div>
         <h1>{this.props.auth.mission.name}</h1>
@@ -63,11 +69,11 @@ class MissionPage extends Component {
               participant={this.state.friend}
             />
           ) : (
-              <MissionInviteBlock
-                picture={profileOrange}
-                code={this.props.auth.mission.code}
-              />
-            )}
+            <MissionInviteBlock
+              picture={profileOrange}
+              code={this.props.auth.mission.code}
+            />
+          )}
         </div>
       </div>
     );
