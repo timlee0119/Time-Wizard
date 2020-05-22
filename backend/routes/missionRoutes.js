@@ -61,4 +61,6 @@ module.exports = app => {
       res.send({ mission: req.user.mission });
     }
   });
+
+  app.get('/missions/result', requireLogin, async (req, res) => {});
 };

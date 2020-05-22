@@ -16,7 +16,9 @@ const participantSchema = new Schema({
   // todayUsage: { type: Number, default: 0 } // seconds
   usageHistory: {
     type: [{ seconds: Number }]
-  }
+  },
+  successDay: { type: Number },
+  bonus: { type: Number }
 });
 
 function validateLimitedWebsites(val) {
@@ -29,8 +31,11 @@ function getHostname(url) {
 }
 
 participantSchema.pre('save', function (next) {
-  for (var i in this.limitedWebsites) {
-    this.limitedWebsites[i] = getHostname(this.limitedWebsites[i]);
+  if (this.isModified('limitedWebsites')) {
+    // format limitedWebsites
+    for (var i in this.limitedWebsites) {
+      this.limitedWebsites[i] = getHostname(this.limitedWebsites[i]);
+    }
   }
   next();
 });

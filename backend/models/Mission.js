@@ -24,10 +24,38 @@ function validateParticipants(val) {
 }
 
 missionSchema.virtual('endTime').get(function () {
+  if (!this.startTime) {
+    return undefined;
+  }
   var endTime = new Date(this.startTime);
   endTime.setDate(this.startTime.getDate() + this.days);
   return endTime;
 });
+
+missionSchema.virtual('ended').get(function () {
+  if (!this.startTime) {
+    return undefined;
+  }
+  var endTime = new Date(this.startTime);
+  endTime.setDate(this.startTime.getDate() + this.days);
+  var now = new Date();
+  return endTime < now;
+});
+
+missionSchema.methods.updateBonus = async function (dayNum) {
+  const mission = this;
+  var s1 = mission.participants[0].successDay;
+  var s2 = mission.participants[1].successDay;
+  mission.participants[0].bonus =
+    (mission.money / (2 * mission.days)) * (dayNum + s1 - s2);
+  mission.participants[1].bonus =
+    (mission.money / (2 * mission.days)) * (dayNum + s2 - s1);
+  await mission.save();
+  return mission;
+};
+
+missionSchema.set('toObject', { virtuals: true });
+missionSchema.set('toJSON', { virtuals: true });
 
 const Mission = mongoose.model('Mission', missionSchema);
 

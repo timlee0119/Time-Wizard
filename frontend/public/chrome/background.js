@@ -3,39 +3,49 @@ const USER_STATUS = {
   NOT_LOGGED_IN: 0,
   NO_MISSION: 1,
   IN_MISSION: 2,
-  MISSION_COMPLETE: 3
+  MISSION_ENDED: 3
 };
 
 class WebsiteMonitor {
   constructor() {
     this.socket;
     this.intervalId;
+    this.userId;
     this.limitedWebsites;
-    this.start = this.start.bind(this);
-    this.stop = this.stop.bind(this);
   }
 
-  start(limitedWebsites) {
+  start(userId, limitedWebsites) {
+    this.userId = userId;
     this.limitedWebsites = limitedWebsites;
     this.socket = io(SERVER_BASE_URL);
     this.createEvents();
   }
 
   stop() {
-    this.socket.disconnect();
-    clearInterval(this.intervalId);
+    if (this.socket && this.intervalId) {
+      this.socket.disconnect();
+      clearInterval(this.intervalId);
+    }
   }
 
   createEvents() {
     const monitor = this;
     monitor.socket.on('connect', () => {
-      console.log('socket.io connected to server');
+      console.log('socket.io on connect');
+      monitor.socket.emit('clientInit', {
+        userId: this.userId,
+        currentTime: new Date()
+      });
+    });
+
+    monitor.socket.on('serverInit', () => {
+      console.log('on serverInit');
       // start checking limited websites every second
       monitor.intervalId = setInterval(() => {
         chrome.tabs.query({ active: true, currentWindow: true }, function (
           tabs
         ) {
-          const timestamp = new Date();
+          const currentTime = new Date();
           var usingLimitedWebsite = false;
           if (tabs[0]) {
             const url = getHostname(tabs[0].url);
@@ -46,12 +56,19 @@ class WebsiteMonitor {
               }
             }
           }
-          const data = { timestamp, usingLimitedWebsite };
+          const data = {
+            currentTime,
+            usingLimitedWebsite
+          };
           console.log('emit clientUpdate: ', data);
           monitor.socket.emit('clientUpdate', data);
         });
       }, 1000);
     });
+
+    monitor.socket.on('serverUpdate', data => {});
+
+    monitor.socket.on('missionEnded', () => {});
 
     monitor.socket.on('disconnect', () => {
       console.log('server disconnected');
@@ -102,16 +119,26 @@ async function updateUserStatus() {
 
     return USER_STATUS.NOT_LOGGED_IN;
   } else if (userData.mission && userData.mission.startTime) {
-    // User is in a mission, or the mission is over
-    console.log('User is in a mission');
-    chrome.browserAction.setPopup({
-      popup: './chrome/popup/popup_inMission.html'
-    });
-    // Start mission
-    const limitedWebsites = getLimitedWebsites(userData);
-    websiteMonitor.start(limitedWebsites);
+    // mission is over
+    if (userData.mission.ended) {
+      console.log('Mission is ended!!!');
+      chrome.browserAction.setPopup({
+        popup: './chrome/popup/popup_missionEnded.html'
+      });
+      return USER_STATUS.MISSION_ENDED;
+    }
+    // in a mission
+    else {
+      console.log('User is in a mission');
+      chrome.browserAction.setPopup({
+        popup: './chrome/popup/popup_inMission.html'
+      });
+      // Start monitor
+      const limitedWebsites = getLimitedWebsites(userData);
+      websiteMonitor.start(userData._id, limitedWebsites);
 
-    return USER_STATUS.IN_MISSION;
+      return USER_STATUS.IN_MISSION;
+    }
   } else {
     // User is logged in but not in a mission or mission is not started
     console.log(
