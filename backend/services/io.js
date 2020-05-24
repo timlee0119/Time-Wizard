@@ -1,17 +1,11 @@
 const User = require('../models/User');
+const Mission = require('../models/Mission');
 const { updateSuccessDayAndFillHistory } = require('../util');
 
 class Connection {
   constructor(pool, socket) {
     this.pool = pool;
     this.socket = socket;
-
-    // User model
-    // this.user;
-    // Participant model
-    // this.me;
-    // this.friend_id;
-
     this.missionId;
     this.userParticipantIndex;
 
@@ -28,7 +22,7 @@ class Connection {
     // tell me who you are, I'll get missionId, userParticipantIndex
     // if first time log in today, update success days and fill in usageHistory data
     this.socket.on('clientInit', async data => {
-      console.log('clientInit');
+      console.log('on clientInit');
       console.log(data);
       const { userId, currentTime } = data;
       const user = await User.findById(userId).populate('mission').exec();
@@ -37,18 +31,22 @@ class Connection {
 
       const dayNum = this.getDayNum(user.mission, currentTime);
       await updateSuccessDayAndFillHistory(user.mission, dayNum);
-      console.log('mission after updatec: ', mission);
+      console.log('participants after update: ', user.mission.participants);
+
+      this.socket.emit('serverInit');
     });
 
     this.socket.on('clientUpdate', async data => {
-      console.log('clientUpdate');
+      console.log('on clientUpdate');
       console.log(data);
-
       const { currentTime, usingLimitedWebsite } = data;
       const mission = await Mission.findById(this.missionId);
+      console.log('usage history: ');
+      console.log(mission.participants[this.userParticipantIndex].usageHistory);
 
       // mission is ended
       if (mission.ended) {
+        console.log('mission is ended!');
         this.socket.emit('missionEnded');
         return;
       }

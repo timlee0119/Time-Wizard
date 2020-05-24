@@ -43,6 +43,9 @@ missionSchema.virtual('ended').get(function () {
 });
 
 missionSchema.methods.updateBonus = async function (dayNum) {
+  if (dayNum === 0) {
+    return this;
+  }
   const mission = this;
   var s1 = mission.participants[0].successDay;
   var s2 = mission.participants[1].successDay;
@@ -56,6 +59,11 @@ missionSchema.methods.updateBonus = async function (dayNum) {
 
 missionSchema.set('toObject', { virtuals: true });
 missionSchema.set('toJSON', { virtuals: true });
+
+missionSchema.pre('save', function (next) {
+  this.markModified('participants');
+  next();
+});
 
 const Mission = mongoose.model('Mission', missionSchema);
 

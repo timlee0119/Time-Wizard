@@ -3,10 +3,27 @@
 * {
   /* border: solid 1px black; */
   box-sizing: border-box;
-  font-family: 'Noto Sans TC', sans-serif !important;
   position: relative;
+}
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
 }
 
 #popup_root {
   min-width: 300px;
+}
+
+@font-face {
+  font-family: 'digital-clock';
+  src: url('../../../fonts/digital-7.ttf');
+}
+
+.digital-clock {
+  font-family: 'digital-clock';
+  font-size: 2rem;
+}
+
+.digital-clock > span > span {
+  margin: auto -0.15rem;
 }

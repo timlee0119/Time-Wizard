@@ -10,21 +10,27 @@ class WebsiteMonitor {
   constructor() {
     this.socket;
     this.intervalId;
-    this.userId;
+    this.popupPort;
+    this.userData;
+    this.userIndex;
     this.limitedWebsites;
   }
 
-  start(userId, limitedWebsites) {
-    this.userId = userId;
-    this.limitedWebsites = limitedWebsites;
+  start(userData) {
+    this.userData = userData;
+    this.userIndex = getUserIndex(userData);
+    this.limitedWebsites =
+      userData.mission.participants[this.userIndex].limitedWebsites;
     this.socket = io(SERVER_BASE_URL);
     this.createEvents();
   }
 
   stop() {
-    if (this.socket && this.intervalId) {
+    if (this.socket) {
       this.socket.disconnect();
+      this.socket = undefined;
       clearInterval(this.intervalId);
+      this.intervalId = undefined;
     }
   }
 
@@ -33,8 +39,16 @@ class WebsiteMonitor {
     monitor.socket.on('connect', () => {
       console.log('socket.io on connect');
       monitor.socket.emit('clientInit', {
-        userId: this.userId,
+        userId: monitor.userData._id,
         currentTime: new Date()
+      });
+
+      chrome.runtime.onConnect.addListener(port => {
+        console.assert(port.name === 'getMissionStatus');
+        port.onDisconnect.addListener(function () {
+          monitor.popupPort = undefined;
+        });
+        monitor.popupPort = port;
       });
     });
 
@@ -66,9 +80,29 @@ class WebsiteMonitor {
       }, 1000);
     });
 
-    monitor.socket.on('serverUpdate', data => {});
+    monitor.socket.on('serverUpdate', mission => {
+      console.log('on serverUpdate');
+      console.log(mission);
+      if (monitor.popupPort) {
+        monitor.popupPort.postMessage({
+          name: mission.name,
+          days: mission.days,
+          me: mission.participants[monitor.userIndex],
+          friend: mission.participants[(monitor.userIndex + 1) % 2]
+        });
+      }
+    });
 
-    monitor.socket.on('missionEnded', () => {});
+    monitor.socket.on('missionEnded', () => {
+      console.log('on mission ended');
+      monitor.stop();
+
+      if (monitor.popupPort) {
+        monitor.popupPort.postMessage({ ended: true });
+      }
+
+      updateUserStatus();
+    });
 
     monitor.socket.on('disconnect', () => {
       console.log('server disconnected');
@@ -82,6 +116,11 @@ function getLimitedWebsites(userData) {
   const me =
     participants[0]._user === userData._id ? participants[0] : participants[1];
   return me.limitedWebsites;
+}
+
+function getUserIndex(userData) {
+  const participants = userData.mission.participants;
+  return participants[0]._user === userData._id ? 0 : 1;
 }
 
 function getHostname(url) {
@@ -112,7 +151,7 @@ async function updateUserStatus() {
     // User is not logged in
     // warning: setPopup is asynchronous,
     // can provide cb as second argument
-    console.log('User is not logged in, set popup_notLoggedIn.html');
+    newFunction();
     chrome.browserAction.setPopup({
       popup: './chrome/popup/popup_notLoggedIn.html'
     });
@@ -133,9 +172,8 @@ async function updateUserStatus() {
       chrome.browserAction.setPopup({
         popup: './chrome/popup/popup_inMission.html'
       });
-      // Start monitor
-      const limitedWebsites = getLimitedWebsites(userData);
-      websiteMonitor.start(userData._id, limitedWebsites);
+
+      websiteMonitor.start(userData);
 
       return USER_STATUS.IN_MISSION;
     }
@@ -149,6 +187,10 @@ async function updateUserStatus() {
     });
 
     return USER_STATUS.NO_MISSION;
+  }
+
+  function newFunction() {
+    console.log('User is not logged in, set popup_notLoggedIn.html');
   }
 }
 

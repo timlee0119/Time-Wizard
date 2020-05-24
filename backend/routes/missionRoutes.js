@@ -14,6 +14,7 @@ module.exports = app => {
         {
           _user: req.user.id,
           owner: true,
+          name: req.user.name,
           limitedWebsites,
           limitTime
         }
@@ -40,6 +41,7 @@ module.exports = app => {
       } else {
         mission.participants.push({
           _user: req.user.id,
+          name: req.user.name,
           limitTime,
           limitedWebsites
         });

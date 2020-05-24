@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 const participantSchema = new Schema({
   _user: { type: Schema.Types.ObjectId, ref: 'User' },
   owner: { type: Boolean, default: false },
+  name: { type: String, required: true },
   limitedWebsites: {
     type: [String],
     required: true,
@@ -14,11 +15,9 @@ const participantSchema = new Schema({
   },
   limitTime: { type: Number, required: true }, // seconds
   // todayUsage: { type: Number, default: 0 } // seconds
-  usageHistory: {
-    type: [{ seconds: Number }]
-  },
-  successDay: { type: Number },
-  bonus: { type: Number }
+  usageHistory: { type: [Number] },
+  successDay: { type: Number, default: 0 },
+  bonus: { type: Number, default: 0 }
 });
 
 function validateLimitedWebsites(val) {

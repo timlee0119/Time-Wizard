@@ -1,5 +1,6 @@
 const passport = require('passport');
 const requireLogin = require('../middlewares/requireLogin');
+const { updateSuccessDayAndFillHistory } = require('../util');
 
 module.exports = app => {
   app.get(
@@ -25,7 +26,12 @@ module.exports = app => {
 
   app.get('/me', requireLogin, async (req, res) => {
     try {
-      await req.user.populate('mission').execPopulate();
+      if (req.user.mission) {
+        await req.user.populate('mission').execPopulate();
+        if (req.user.mission.ended) {
+          await updateSuccessDayAndFillHistory(req.user.mission);
+        }
+      }
       res.send(req.user);
     } catch (error) {
       console.error(error);
