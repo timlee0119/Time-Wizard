@@ -31,6 +31,7 @@ class WebsiteMonitor {
       this.socket = undefined;
       clearInterval(this.intervalId);
       this.intervalId = undefined;
+      this.popupPort = undefined;
     }
   }
 
@@ -147,24 +148,38 @@ async function fetchUserData() {
 async function updateUserStatus() {
   const userData = await fetchUserData();
   console.log('updateUserStatus(): userData: ', userData);
+
+  var userStatus;
   if (!userData) {
     // User is not logged in
     // warning: setPopup is asynchronous,
     // can provide cb as second argument
-    newFunction();
+    console.log('User is not logged in, set popup_notLoggedIn.html');
     chrome.browserAction.setPopup({
       popup: './chrome/popup/popup_notLoggedIn.html'
     });
-
-    return USER_STATUS.NOT_LOGGED_IN;
+    userStatus = USER_STATUS.NOT_LOGGED_IN;
   } else if (userData.mission && userData.mission.startTime) {
     // mission is over
     if (userData.mission.ended) {
       console.log('Mission is ended!!!');
+
+      // listen to missionEnded.js response, and then send it userData
+      chrome.runtime.onMessage.addListener(function (
+        request,
+        sender,
+        sendResponse
+      ) {
+        if (request.type === 'getMissionEndedData') {
+          sendResponse(userData);
+        }
+      });
+
       chrome.browserAction.setPopup({
         popup: './chrome/popup/popup_missionEnded.html'
       });
-      return USER_STATUS.MISSION_ENDED;
+
+      userStatus = USER_STATUS.MISSION_ENDED;
     }
     // in a mission
     else {
@@ -174,8 +189,7 @@ async function updateUserStatus() {
       });
 
       websiteMonitor.start(userData);
-
-      return USER_STATUS.IN_MISSION;
+      userStatus = USER_STATUS.IN_MISSION;
     }
   } else {
     // User is logged in but not in a mission or mission is not started
@@ -185,13 +199,13 @@ async function updateUserStatus() {
     chrome.browserAction.setPopup({
       popup: './chrome/popup/popup_loggedIn.html'
     });
-
-    return USER_STATUS.NO_MISSION;
+    userStatus = USER_STATUS.NO_MISSION;
   }
 
-  function newFunction() {
-    console.log('User is not logged in, set popup_notLoggedIn.html');
-  }
+  // tell popup loading.js
+  chrome.runtime.sendMessage({ type: 'updateUserStatus', userStatus });
+
+  return userStatus;
 }
 
 // listen for login and logout
