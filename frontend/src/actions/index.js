@@ -5,7 +5,7 @@ import history from '../utils/history';
 export const fetchUser = () => async dispatch => {
   try {
     const res = await axios.get('/me');
-    console.log('fetchUser: ', res.data);
+    console.log('action: fetchUser: ', res.data);
     dispatch({ type: FETCH_USER, payload: res.data });
   } catch (error) {
     // if not logged in, redirect to login page
@@ -19,7 +19,7 @@ export const fetchUser = () => async dispatch => {
 
 export const submitCreateMission = formValues => async dispatch => {
   try {
-    console.log('submitCreateMission: ', formValues);
+    console.log('action: submitCreateMission: ', formValues);
     const res = await axios.post('/missions', formValues);
     console.log('submitCreateMission response: ', res);
     dispatch({ type: FETCH_USER, payload: res.data });
@@ -32,7 +32,7 @@ export const submitCreateMission = formValues => async dispatch => {
 };
 
 export const submitJoinMission = formValues => async dispatch => {
-  console.log('submitJoinMission: ', formValues);
+  console.log('action: submitJoinMission: ', formValues);
   try {
     const res = await axios.patch('/missions', formValues);
     console.log('submitJoinMission response: ', res);
@@ -47,5 +47,17 @@ export const submitJoinMission = formValues => async dispatch => {
       alert('加入任務失敗');
       console.error(error);
     }
+  }
+};
+
+export const dismissMission = () => async dispatch => {
+  console.log('action: dismissMIssion');
+  try {
+    const res = await axios.patch('/me', { mission: undefined });
+    console.log('dismissMission response: ', res);
+    dispatch({ type: FETCH_USER, payload: res.data });
+    history.push('/');
+  } catch (error) {
+    console.error(error);
   }
 };

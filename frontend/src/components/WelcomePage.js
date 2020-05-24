@@ -4,14 +4,6 @@ import orangeGhost from '../images/welcome_orange.png';
 import blueGhost from '../images/welcome_blue.png';
 
 const WelcomePage = ({ history }) => {
-  // const onCreateMissionClick = useCallback(() => {
-  //   history.push('/createMission');
-  // }, [history]);
-
-  // const onJoinMissionClick = useCallback(() => {
-  //   history.push('/joinMission');
-  // }, [history]);
-
   return (
     <>
       <h1>哈囉，歡迎來到哈哈哈哈！</h1>

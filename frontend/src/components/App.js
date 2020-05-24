@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Router, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as actions from '../actions';
+import history from '../utils/history';
 
 import WelcomePage from './WelcomePage';
 import CreateMissonPage from './CreateMissionPage';
 import JoinMissionPage from './JoinMissionPage';
 import MissionPage from './MissionPage';
-import * as actions from '../actions';
-import history from '../utils/history';
+import ReportPage from './ReportPage';
 
 class App extends Component {
   componentDidMount() {
@@ -16,16 +17,15 @@ class App extends Component {
   }
 
   onlyWhenMission = (hasMission, component) => {
+    if (this.props.auth.mission && this.props.auth.mission.ended) {
+      return <Redirect to="/report" />;
+    }
     if (hasMission) {
       return this.props.auth.mission ? component : <Redirect to="/" />;
     } else {
       return this.props.auth.mission ? <Redirect to="/mission" /> : component;
     }
   };
-
-  // onlyWhenNoMission = component => {
-  //   return this.props.auth.mission ? <Redirect to="/mission" /> : component;
-  // };
 
   render() {
     if (!this.props.auth) {
@@ -50,6 +50,11 @@ class App extends Component {
           <Route
             path="/mission"
             render={() => this.onlyWhenMission(true, <MissionPage />)}
+          />
+          {/* actually it requires mission.end is true, being lazy here */}
+          <Route
+            path="/report"
+            render={() => this.onlyWhenMission(true, <ReportPage />)}
           />
         </Router>
       </div>
