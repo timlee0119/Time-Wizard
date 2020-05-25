@@ -1,3 +1,4 @@
+/* global chrome */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -15,13 +16,13 @@ class ReportPage extends Component {
     this.state = { me, totalTime };
   }
 
-  // onHomepageClick = async () => {
-  //   await this.props.dismissMission();
-
-  // }
+  onHomepageClick = async () => {
+    await this.props.dismissMission();
+    chrome.runtime.sendMessage({ type: 'endMission' });
+  };
 
   getTotalTime(history) {
-    var totalTime;
+    var totalTime = 0;
     for (var i = 0; i < this.props.auth.mission.days; ++i) {
       totalTime += history[i];
     }
@@ -64,16 +65,18 @@ class ReportPage extends Component {
         <div>
           <h3>限制網站</h3>
           {this.state.me.limitedWebsites.map(w => (
-            <div>
-              <span>
-                <img
-                  src={`http://www.google.com/s2/favicons?domain=${w}`}
-                  alt="favicon"
-                />
-              </span>
-              <span>
-                <p>{w}</p>
-              </span>
+            <div key={w}>
+              <img
+                src={`http://www.google.com/s2/favicons?domain=${w}`}
+                alt="favicon"
+                style={{
+                  verticalAlign: 'middle',
+                  width: '1rem',
+                  height: '1rem',
+                  paddingRight: '0.5rem'
+                }}
+              />
+              <p style={{ display: 'inline', verticalAlign: 'middle' }}>{w}</p>
             </div>
           ))}
         </div>
@@ -81,21 +84,21 @@ class ReportPage extends Component {
         <div>
           <h3>成功天數 / 總天數</h3>
           <p>
-            {this.state.me.successDay} / {this.auth.mission.days}
+            {this.state.me.successDay} / {this.props.auth.mission.days}
           </p>
         </div>
         {/* history trend */}
         {/* money */}
         <div>
           <h3>初始投入金額</h3>
-          <p>{this.props.mission.money / 2}</p>
+          <p>{this.props.auth.mission.money / 2}</p>
           <h3>贖回金額</h3>
           <p>{this.state.me.bonus}</p>
         </div>
         {/* footer */}
         <div style={{ backgroundImage: '../images/report.png' }}>
           <h3>與朋友繼續提升專注度的旅程吧！</h3>
-          <button onClick={this.props.dismissMission}>前往首頁</button>
+          <button onClick={this.onHomepageClick}>前往首頁</button>
         </div>
       </div>
     );

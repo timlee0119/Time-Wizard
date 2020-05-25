@@ -38,4 +38,12 @@ module.exports = app => {
       res.status(500).send();
     }
   });
+
+  app.patch('/me', requireLogin, async (req, res) => {
+    Object.keys(req.body).forEach(k => {
+      req.user[k] = req.body[k];
+    });
+    await req.user.save();
+    res.send(req.user);
+  });
 };

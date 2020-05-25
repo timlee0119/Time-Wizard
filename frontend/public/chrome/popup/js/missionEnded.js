@@ -12,11 +12,11 @@ window.onload = function () {
     ).innerHTML = `${userData.mission.name} 任務結束！`;
     var redeemMe, redeemFriend;
     if (me.bonus >= friend.bonus) {
-      redeemMe = `恭喜你贖回了 ${me.bonus} 元！這次做得很好哦！`;
+      redeemMe = `恭喜你拿回 ${me.bonus} 元！這次做得很好哦！`;
     } else {
-      redeemMe = `可惜了！你僅贖回 ${me.bonus} 元，下次再加油！`;
+      redeemMe = `可惜了！你僅拿回 ${me.bonus} 元，下次再加油！`;
     }
-    redeemFriend = `你的朋友贖回了 ${friend.bonus} 元`;
+    redeemFriend = `你的朋友拿回了 ${friend.bonus} 元`;
     document.querySelector('#redeem_me').innerHTML = redeemMe;
     document.querySelector('#redeem_friend').innerHTML = redeemFriend;
   });

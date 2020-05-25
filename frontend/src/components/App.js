@@ -16,14 +16,27 @@ class App extends Component {
     this.props.fetchUser();
   }
 
-  onlyWhenMission = (hasMission, component) => {
-    if (this.props.auth.mission && this.props.auth.mission.ended) {
-      return <Redirect to="/report" />;
-    }
-    if (hasMission) {
-      return this.props.auth.mission ? component : <Redirect to="/" />;
+  onlyWhenMission = (needMission, component) => {
+    if (needMission) {
+      if (this.props.auth.mission) {
+        if (this.props.auth.mission.ended) {
+          return <Redirect to="/report" />;
+        } else {
+          return component;
+        }
+      } else {
+        return <Redirect to="/" />;
+      }
     } else {
       return this.props.auth.mission ? <Redirect to="/mission" /> : component;
+    }
+  };
+
+  onlyWhenMissionEnded = component => {
+    if (this.props.auth.mission && this.props.auth.mission.ended) {
+      return component;
+    } else {
+      return <Redirect to="/" />;
     }
   };
 
@@ -54,7 +67,7 @@ class App extends Component {
           {/* actually it requires mission.end is true, being lazy here */}
           <Route
             path="/report"
-            render={() => this.onlyWhenMission(true, <ReportPage />)}
+            render={() => this.onlyWhenMissionEnded(<ReportPage />)}
           />
         </Router>
       </div>

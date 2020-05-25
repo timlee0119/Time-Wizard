@@ -251,6 +251,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         }
       });
       break;
+    case 'endMission':
+      console.log('receive endMission message');
+      updateUserStatus();
 
     default:
       console.log(`Unknown request type: ${request.type}`);

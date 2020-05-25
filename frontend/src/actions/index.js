@@ -53,7 +53,7 @@ export const submitJoinMission = formValues => async dispatch => {
 export const dismissMission = () => async dispatch => {
   console.log('action: dismissMIssion');
   try {
-    const res = await axios.patch('/me', { mission: undefined });
+    const res = await axios.patch('/me', { mission: null });
     console.log('dismissMission response: ', res);
     dispatch({ type: FETCH_USER, payload: res.data });
     history.push('/');
