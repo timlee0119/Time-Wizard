@@ -24,3 +24,6 @@ yarn-error.log*
 
 manifest.json
 *.zip
+build.pem
+build.crx
+key.pem
