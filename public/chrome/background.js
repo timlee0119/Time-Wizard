@@ -1,9 +1,11 @@
-const SERVER_BASE_URL = 'http://localhost:5000';
+// const SERVER_BASE_URL = 'http://localhost:5000';
+const SERVER_BASE_URL = 'https://intervention-backend.herokuapp.com';
 const USER_STATUS = {
   NOT_LOGGED_IN: 0,
   NO_MISSION: 1,
-  IN_MISSION: 2,
-  MISSION_ENDED: 3
+  MISSION_NOT_STARTED: 2,
+  IN_MISSION: 3,
+  MISSION_ENDED: 4
 };
 
 class WebsiteMonitor {
@@ -159,11 +161,21 @@ async function updateUserStatus() {
       popup: './chrome/popup/popup_notLoggedIn.html'
     });
     userStatus = USER_STATUS.NOT_LOGGED_IN;
-  } else if (userData.mission && userData.mission.startTime) {
-    // mission is over
-    if (userData.mission.ended) {
-      console.log('Mission is ended!!!');
+  } else if (userData.mission) {
+    // mission is not started yet
+    if (!userData.mission.startTime) {
+      console.log('mission is not started yet');
 
+      chrome.browserAction.setPopup({
+        popup: './chrome/popup/popup_loggedIn.html'
+      });
+
+      userStatus = USER_STATUS.MISSION_NOT_STARTED;
+    }
+
+    // mission is over
+    else if (userData.mission.ended) {
+      console.log('Mission is ended!!!');
       // listen to missionEnded.js response, and then send it userData
       chrome.runtime.onMessage.addListener(function (
         request,
@@ -174,11 +186,9 @@ async function updateUserStatus() {
           sendResponse(userData);
         }
       });
-
       chrome.browserAction.setPopup({
         popup: './chrome/popup/popup_missionEnded.html'
       });
-
       userStatus = USER_STATUS.MISSION_ENDED;
     }
     // in a mission
@@ -192,9 +202,9 @@ async function updateUserStatus() {
       userStatus = USER_STATUS.IN_MISSION;
     }
   } else {
-    // User is logged in but not in a mission or mission is not started
+    // User is logged in but not in a mission
     console.log(
-      'User is logged in but not in a mission or mission is not started, set popup_loggedIn.html'
+      'User is logged in but not in a mission, set popup_loggedIn.html'
     );
     chrome.browserAction.setPopup({
       popup: './chrome/popup/popup_loggedIn.html'
@@ -237,8 +247,24 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
 // listen for mission starting
 /* { type: 'startMission', ... } */
+chrome.runtime.onMessage.addListender(function (request) {
+  if (request.type === 'refreshUserStatus') {
+    updateUserStatus().then(status => {
+      console.log(
+        `refreshUserStatus: new status = ${Object.keys(USER_STATUS)[status]}`
+      );
+    });
+  }
+});
+/*
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   switch (request.type) {
+    case 'joinMission':
+      console.log('receive joinMission message');
+      updateUserStatus().then(status => {
+        if (status === )
+      })
+      break;
     case 'startMission':
       console.log('receive startMission message');
       updateUserStatus().then(status => {
@@ -261,6 +287,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   // to keep message channel open during asynchronous operation
   return true;
 });
+*/
 
 console.log('background page loaded');
 var websiteMonitor = new WebsiteMonitor();
