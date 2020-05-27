@@ -1,4 +1,3 @@
-/* global chrome */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
@@ -16,9 +15,9 @@ class ReportPage extends Component {
     this.state = { me, totalTime };
   }
 
-  onHomepageClick = async () => {
-    await this.props.dismissMission();
-    chrome.runtime.sendMessage({ type: 'endMission' });
+  // TODO: put chrome.runtime.sendMessage to action creator
+  onHomepageClick = () => {
+    this.props.dismissMission();
   };
 
   getTotalTime(history) {

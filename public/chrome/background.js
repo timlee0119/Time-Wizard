@@ -18,13 +18,13 @@ class WebsiteMonitor {
     this.limitedWebsites;
   }
 
-  start(userData) {
+  start(userData, callback) {
     this.userData = userData;
     this.userIndex = getUserIndex(userData);
     this.limitedWebsites =
       userData.mission.participants[this.userIndex].limitedWebsites;
     this.socket = io(SERVER_BASE_URL);
-    this.createEvents();
+    this.createEvents(callback);
   }
 
   stop() {
@@ -37,7 +37,7 @@ class WebsiteMonitor {
     }
   }
 
-  createEvents() {
+  createEvents(callback) {
     const monitor = this;
     monitor.socket.on('connect', () => {
       console.log('socket.io on connect');
@@ -52,7 +52,13 @@ class WebsiteMonitor {
           monitor.popupPort = undefined;
         });
         monitor.popupPort = port;
+        console.log('inMission.js port connect, monitor.popupPort: ', port);
       });
+
+      // set popup_inMission.html after background start listening for connection
+      if (callback) {
+        callback();
+      }
     });
 
     monitor.socket.on('serverInit', () => {
@@ -86,6 +92,7 @@ class WebsiteMonitor {
     monitor.socket.on('serverUpdate', mission => {
       console.log('on serverUpdate');
       console.log(mission);
+      console.log('monitor.popupPort: ', monitor.popupPort);
       if (monitor.popupPort) {
         monitor.popupPort.postMessage({
           name: mission.name,
@@ -96,15 +103,14 @@ class WebsiteMonitor {
       }
     });
 
-    monitor.socket.on('missionEnded', () => {
+    monitor.socket.on('missionEnded', async () => {
       console.log('on mission ended');
-      monitor.stop();
-
-      if (monitor.popupPort) {
-        monitor.popupPort.postMessage({ ended: true });
+      var port = monitor.popupPort;
+      monitor.stop(); // will set monitor.popupPort to undefined
+      await updateUserStatus();
+      if (port) {
+        port.postMessage({ ended: true });
       }
-
-      updateUserStatus();
     });
 
     monitor.socket.on('disconnect', () => {
@@ -131,6 +137,13 @@ function getHostname(url) {
   return url.replace(/^(?:https?:\/\/)?(?:www\.)?/i, '');
 }
 
+function setPopupAndNotify(popup, userStatus) {
+  chrome.browserAction.setPopup({ popup }, () => {
+    // tell loading.js to change page if it's still loading
+    chrome.runtime.sendMessage({ type: 'updateUserStatus', userStatus });
+  });
+}
+
 async function fetchUserData() {
   try {
     var promise = await fetch(`${SERVER_BASE_URL}/me`, {
@@ -154,23 +167,23 @@ async function updateUserStatus() {
   var userStatus;
   if (!userData) {
     // User is not logged in
-    // warning: setPopup is asynchronous,
-    // can provide cb as second argument
     console.log('User is not logged in, set popup_notLoggedIn.html');
-    chrome.browserAction.setPopup({
-      popup: './chrome/popup/popup_notLoggedIn.html'
-    });
+
     userStatus = USER_STATUS.NOT_LOGGED_IN;
+    setPopupAndNotify('./chrome/popup/popup_notLoggedIn.html', userStatus);
   } else if (userData.mission) {
     // mission is not started yet
     if (!userData.mission.startTime) {
       console.log('mission is not started yet');
 
-      chrome.browserAction.setPopup({
-        popup: './chrome/popup/popup_loggedIn.html'
-      });
+      // if user is not owner, refresh again after 5 seconds
+      // in order to detect whether the owner started or not
+      if (userData._id !== userData.mission.participants[0]._user) {
+        setTimeout(updateUserStatus, 5000);
+      }
 
       userStatus = USER_STATUS.MISSION_NOT_STARTED;
+      setPopupAndNotify('./chrome/popup/popup_loggedIn.html', userStatus);
     }
 
     // mission is over
@@ -186,34 +199,29 @@ async function updateUserStatus() {
           sendResponse(userData);
         }
       });
-      chrome.browserAction.setPopup({
-        popup: './chrome/popup/popup_missionEnded.html'
-      });
+
       userStatus = USER_STATUS.MISSION_ENDED;
+      setPopupAndNotify('./chrome/popup/popup_missionEnded.html', userStatus);
     }
     // in a mission
     else {
       console.log('User is in a mission');
-      chrome.browserAction.setPopup({
-        popup: './chrome/popup/popup_inMission.html'
-      });
 
-      websiteMonitor.start(userData);
       userStatus = USER_STATUS.IN_MISSION;
+      // set popup_inMission.html after background start listening for connection
+      websiteMonitor.start(userData, () => {
+        setPopupAndNotify('./chrome/popup/popup_inMission.html', userStatus);
+      });
     }
   } else {
     // User is logged in but not in a mission
     console.log(
       'User is logged in but not in a mission, set popup_loggedIn.html'
     );
-    chrome.browserAction.setPopup({
-      popup: './chrome/popup/popup_loggedIn.html'
-    });
-    userStatus = USER_STATUS.NO_MISSION;
-  }
 
-  // tell popup loading.js
-  chrome.runtime.sendMessage({ type: 'updateUserStatus', userStatus });
+    userStatus = USER_STATUS.NO_MISSION;
+    setPopupAndNotify('./chrome/popup/popup_loggedIn.html', userStatus);
+  }
 
   return userStatus;
 }
@@ -245,9 +253,8 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   }
 });
 
-// listen for mission starting
-/* { type: 'startMission', ... } */
-chrome.runtime.onMessage.addListender(function (request) {
+// React side would call this to sync states between React and background
+chrome.runtime.onMessage.addListener(function (request) {
   if (request.type === 'refreshUserStatus') {
     updateUserStatus().then(status => {
       console.log(
@@ -256,38 +263,6 @@ chrome.runtime.onMessage.addListender(function (request) {
     });
   }
 });
-/*
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  switch (request.type) {
-    case 'joinMission':
-      console.log('receive joinMission message');
-      updateUserStatus().then(status => {
-        if (status === )
-      })
-      break;
-    case 'startMission':
-      console.log('receive startMission message');
-      updateUserStatus().then(status => {
-        if (status === USER_STATUS.IN_MISSION) {
-          sendResponse({ status: 'success' });
-        } else {
-          const error = 'status !== IN_MISSION after updateUserStatus()';
-          console.error(error);
-          sendResponse({ error });
-        }
-      });
-      break;
-    case 'endMission':
-      console.log('receive endMission message');
-      updateUserStatus();
-
-    default:
-      console.log(`Unknown request type: ${request.type}`);
-  }
-  // to keep message channel open during asynchronous operation
-  return true;
-});
-*/
 
 console.log('background page loaded');
 var websiteMonitor = new WebsiteMonitor();

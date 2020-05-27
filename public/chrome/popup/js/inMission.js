@@ -18,7 +18,10 @@ function getWebsiteIcons(websites) {
   return ret;
 }
 
-function renderMission({ name, days, ended, ...participants }) {
+function renderMission(data) {
+  const { name, days, ended, ...participants } = data;
+  console.log('renderMission receive data: ', data);
+
   if (ended) {
     document.location.href = './popup_missionEnded.html';
   }
