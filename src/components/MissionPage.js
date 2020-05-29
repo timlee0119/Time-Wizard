@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import axios from '../utils/axios';
 import * as actions from '../actions';
 import MissionInfoBlock from './missionBlock/MissionInfoBlock';
 import MissionInviteBlock from './missionBlock/MissionInviteBlock';

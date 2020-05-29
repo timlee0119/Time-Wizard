@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap');
 
+:root {
+  --main-color: #54a3e6;
+  --title-color: #616161;
+  --text-color: #6f6f6f;
+}
+
 * {
   /* border: solid 1px black; */
   box-sizing: border-box;
@@ -10,13 +16,50 @@ body {
   font-family: 'Noto Sans TC', sans-serif;
 }
 
-#popup_root {
-  min-width: 300px;
-}
-
 @font-face {
   font-family: 'digital-clock';
   src: url('../../../fonts/digital-7.ttf');
+}
+
+h1 {
+  font-size: 1.35rem;
+  color: var(--title-color);
+}
+
+h3 {
+  color: var(--main-color);
+}
+
+p {
+  font-size: 0.8775rem;
+  line-height: 1.5rem;
+  color: var(--text-color);
+}
+
+#popup_root {
+  width: 20rem;
+  padding: 1rem;
+}
+
+.btn {
+  border: none;
+  border-radius: 36px;
+  width: 10rem;
+  height: 2.4rem;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn.main {
+  background-color: var(--main-color);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn.cancel {
+  background-color: #bdbdbd;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .digital-clock {

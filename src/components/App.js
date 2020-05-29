@@ -9,6 +9,7 @@ import CreateMissonPage from './CreateMissionPage';
 import JoinMissionPage from './JoinMissionPage';
 import MissionPage from './MissionPage';
 import ReportPage from './ReportPage';
+import Loading from './widgets/Loading';
 
 class App extends Component {
   componentDidMount() {
@@ -41,35 +42,38 @@ class App extends Component {
   };
 
   render() {
-    if (!this.props.auth) {
-      return <div>Loading...</div>;
-    }
     return (
-      <div>
-        <Router history={history}>
-          <Route
-            path="/"
-            exact
-            render={() => this.onlyWhenMission(false, <WelcomePage />)}
-          />
-          <Route
-            path="/createMission"
-            render={() => this.onlyWhenMission(false, <CreateMissonPage />)}
-          />
-          <Route
-            path="/joinMission"
-            render={() => this.onlyWhenMission(false, <JoinMissionPage />)}
-          />
-          <Route
-            path="/mission"
-            render={() => this.onlyWhenMission(true, <MissionPage />)}
-          />
-          {/* actually it requires mission.end is true, being lazy here */}
-          <Route
-            path="/report"
-            render={() => this.onlyWhenMissionEnded(<ReportPage />)}
-          />
-        </Router>
+      <div className="app-background">
+        <div className="card main" style={{ width: '50rem' }}>
+          {!this.props.auth ? (
+            <Loading />
+          ) : (
+            <Router history={history}>
+              <Route
+                path="/"
+                exact
+                render={() => this.onlyWhenMission(false, <WelcomePage />)}
+              />
+              <Route
+                path="/createMission"
+                render={() => this.onlyWhenMission(false, <CreateMissonPage />)}
+              />
+              <Route
+                path="/joinMission"
+                render={() => this.onlyWhenMission(false, <JoinMissionPage />)}
+              />
+              <Route
+                path="/mission"
+                render={() => this.onlyWhenMission(true, <MissionPage />)}
+              />
+              {/* actually it requires mission.end is true, being lazy here */}
+              <Route
+                path="/report"
+                render={() => this.onlyWhenMissionEnded(<ReportPage />)}
+              />
+            </Router>
+          )}
+        </div>
       </div>
     );
   }

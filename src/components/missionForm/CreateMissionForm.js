@@ -12,25 +12,29 @@ class CreateMissionForm extends Component {
           name="name"
           type="text"
           label="任務名稱："
+          placeholder="請輸入任務名稱"
           component={FormField}
         />
         <Field
           name="days"
           type="text"
           label="執行天數："
+          placeholder="請選擇天數"
           component={FormField}
         />
         {/* Remember to change value in seconds */}
         <Field
           name="limitTime"
           type="text"
-          label="單日限制時間（秒）："
+          label="單日限制時間："
+          placeholder="請選擇限制時間"
           component={FormField}
         />
         <Field
           name="money"
           type="text"
-          label="約定金額："
+          label="投入金額："
+          placeholder="請選擇金額"
           component={FormField}
         />
         <FieldArray

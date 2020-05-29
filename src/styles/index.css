@@ -1,8 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap');
+
+:root {
+  --main-color: #b8deff;
+  --main-dark-color: #54a3e6;
+  --main-light-color: #d3eaff;
+  --main-shadow: #70a0ca4f;
+  --second-color: #fa8f58;
+  --second-dark-color: #ff7a35;
+  --second-light-color: #fbb591;
+  --second-shadow: #fcc1a3c4;
+  --title-color: #616161;
+  --text-color: #6f6f6f;
+}
+
+* {
+  /* border: solid 1px black; */
+  box-sizing: border-box;
+  position: relative;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 75%;
+  background-color: var(--main-light-color);
+}
+
+h1 {
+  color: var(--title-color);
+}
+
+h2 {
+  color: var(--text-color);
+}
+
+p {
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.app-background {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5% 0;
+}
+
 .card {
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card.main {
+  background-color: #fcfdfd;
+  box-shadow: -5px 5px 20px var(--main-shadow);
+}
+
+.card.inner {
+  padding: 6%;
+  background-color: #ffffff;
+  box-shadow: 0px 0px 10px #00000021;
+}
+
+.card-block {
+  margin: 6% 8% 8% 8%;
+}
+
+.btn {
+  border: none;
+  border-radius: 36px;
+  width: 10rem;
+  height: 2.4rem;
+  color: white;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn.main {
+  background-color: var(--main-dark-color);
+  box-shadow: 5px 5px 6px var(--main-shadow);
+}
+
+.btn.second {
+  background-color: var(--second-color);
+  box-shadow: 5px 5px 6px var(--second-shadow);
+}
+
+.btn.sm {
+  font-size: 0.7rem;
+  width: 4rem;
+  height: 1.7rem;
+  border-radius: 30px;
+}
+
+.form-field {
+  display: flex;
+  align-items: center;
+}
+
+.form-label {
+  color: var(--main-dark-color);
+  display: inline-block;
+}
+
+.form-input {
+  background: #f6fbff;
+  border: 1px solid #b2dcff;
+  border-radius: 30px;
+  height: 1.5rem;
+  margin-left: 0.5rem;
+  padding-left: 0.8rem;
+  flex-grow: 1;
+}
+
+.digital-clock {
+  font-family: 'digital-clock';
+  font-size: 2rem;
+}
+
+.digital-clock > span > span {
+  margin: auto -0.15rem;
+}
+
+/* .card {
   display: inline-block;
   vertical-align: top;
   width: 300px;
   min-height: 600px;
   border-radius: 10px;
   border: solid 1px;
-}
+} */

@@ -11,11 +11,13 @@ class CreateMissionPage extends Component {
   };
   render() {
     return (
-      <div>
-        <img src={orangeHeader} alt="orange_header" />
-        <h1>開始創建任務與朋友一起執行吧！</h1>
-        <CreateMissionForm onSubmit={this.onFormSubmit} />
-      </div>
+      <>
+        <img style={{ width: '100%' }} src={orangeHeader} alt="orange_header" />
+        <div className="card-block">
+          <h1>開始創建任務與朋友一起執行吧！</h1>
+          <CreateMissionForm onSubmit={this.onFormSubmit} />
+        </div>
+      </>
     );
   }
 }

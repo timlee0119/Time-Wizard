@@ -113,10 +113,10 @@ class WebsiteMonitor {
       }
     });
 
-    monitor.socket.on('disconnect', () => {
-      console.log('server disconnected');
-      monitor.stop();
-    });
+    // monitor.socket.on('disconnect', () => {
+    //   console.log('server disconnected');
+    //   monitor.stop();
+    // });
   }
 }
 
