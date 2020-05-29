@@ -29,20 +29,23 @@ const FormFieldArray = ({ fields, label, meta: { error } }) => {
   };
   return (
     <div style={{ display: 'flex' }}>
-      <label>
+      {/* <label>
         <p className="form-label">{label}</p>
-      </label>
+      </label> */}
       <div style={{ flexGrow: '1' }}>
         {fields.map((field, index) => (
           // dangerous???
           <React.Fragment key={index}>
             <Field
               name={field}
+              label={label}
+              hideLabel={index !== 0}
               type="text"
               placeholder="請輸入網址"
               component={FormField}
               button={renderButton(index)}
             />
+            <div style={{ flex: '100%', height: '0' }}></div>
             {/* {renderButton(index)} */}
           </React.Fragment>
         ))}

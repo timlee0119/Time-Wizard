@@ -3,18 +3,23 @@
 :root {
   --main-color: #b8deff;
   --main-dark-color: #54a3e6;
+  --main-darker-color: #3589d1;
   --main-light-color: #d3eaff;
   --main-shadow: #70a0ca4f;
+
   --second-color: #fa8f58;
   --second-dark-color: #ff7a35;
   --second-light-color: #fbb591;
   --second-shadow: #fcc1a3c4;
+
   --title-color: #616161;
   --text-color: #6f6f6f;
+
+  --form-text-color: #676767;
+  --form-prev-color: #9fa0a1;
 }
 
 * {
-  /* border: solid 1px black; */
   box-sizing: border-box;
   position: relative;
 }
@@ -76,16 +81,16 @@ p {
   margin: 6% 8% 8% 8%;
 }
 
+[class^='btn'] {
+  cursor: pointer;
+}
+
 .btn {
   border: none;
   border-radius: 36px;
   width: 10rem;
   height: 2.4rem;
   color: white;
-}
-
-.btn:hover {
-  cursor: pointer;
 }
 
 .btn.main {
@@ -105,6 +110,19 @@ p {
   border-radius: 30px;
 }
 
+.btn-prev {
+  border: none;
+  background: none;
+  color: var(--form-prev-color);
+}
+
+.btn-prev > div {
+  display: inline-block;
+  transform: rotate(180deg) scale(2, 1.2);
+  line-height: 100%;
+  margin-right: 0.5rem;
+}
+
 .form-field {
   display: flex;
   align-items: center;
@@ -117,10 +135,11 @@ p {
 
 .form-input {
   background: #f6fbff;
+  color: var(--form-text-color);
   border: 1px solid #b2dcff;
   border-radius: 30px;
   height: 1.5rem;
-  margin-left: 0.5rem;
+  margin: 0 0.5rem;
   padding-left: 0.8rem;
   flex-grow: 1;
 }

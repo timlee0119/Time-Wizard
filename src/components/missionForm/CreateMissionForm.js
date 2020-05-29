@@ -42,8 +42,32 @@ class CreateMissionForm extends Component {
           label="限制網站："
           component={FormFieldArray}
         />
-        <button type="submit">確認</button>
-        <Link to="/">返回上一頁</Link>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}
+        >
+          <button
+            style={{
+              width: '7rem',
+              height: '2.6rem',
+              backgroundColor: 'var(--main-darker-color)',
+              margin: '1.5rem 0 0.5rem 0'
+            }}
+            className="btn main"
+            type="submit"
+          >
+            確認
+          </button>
+          <Link to="/">
+            <button className="btn-prev">
+              <div>&#8227;</div>
+              返回上一頁
+            </button>
+          </Link>
+        </div>
       </form>
     );
   }
