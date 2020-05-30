@@ -75,6 +75,8 @@ p {
 }
 
 .card.main {
+  width: 50rem;
+  min-height: 30rem;
   background-color: #fcfdfd;
   box-shadow: -5px 5px 20px var(--main-shadow);
 }

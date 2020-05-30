@@ -44,7 +44,7 @@ class App extends Component {
   render() {
     return (
       <div className="app-background">
-        <div className="card main" style={{ width: '50rem' }}>
+        <div className="card main">
           {!this.props.auth ? (
             <Loading />
           ) : (
@@ -66,7 +66,6 @@ class App extends Component {
                 path="/mission"
                 render={() => this.onlyWhenMission(true, <MissionPage />)}
               />
-              {/* actually it requires mission.end is true, being lazy here */}
               <Route
                 path="/report"
                 render={() => this.onlyWhenMissionEnded(<ReportPage />)}
