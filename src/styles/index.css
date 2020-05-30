@@ -18,7 +18,8 @@
   --form-text-color: #676767;
   --form-prev-color: #9fa0a1;
 
-  --error-color: #e53935;
+  --error-color: #ef5350;
+  --error-shadow: #fca3a3c4;
 }
 
 * {
@@ -105,11 +106,17 @@ p {
   box-shadow: 5px 5px 6px var(--second-shadow);
 }
 
+.btn.cancel {
+  background-color: var(--error-color);
+  box-shadow: 5px 5px 6px var(--error-shadow);
+}
+
 .btn.sm {
   font-size: 0.7rem;
   width: 4rem;
   height: 1.7rem;
   border-radius: 30px;
+  box-shadow: none;
 }
 
 .btn-prev {

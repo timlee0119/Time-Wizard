@@ -9,7 +9,7 @@ const FormFieldArray = ({ fields, label, meta: { error } }) => {
         <button
           className="btn sm main"
           type="button"
-          onClick={() => fields.push()}
+          onClick={() => fields.length < 5 && fields.push()}
         >
           新增
         </button>
@@ -17,7 +17,7 @@ const FormFieldArray = ({ fields, label, meta: { error } }) => {
     } else {
       return (
         <button
-          className="btn sm second"
+          className="btn sm cancel"
           type="button"
           title="Remove Website"
           onClick={() => fields.remove(index)}
@@ -28,28 +28,20 @@ const FormFieldArray = ({ fields, label, meta: { error } }) => {
     }
   };
   return (
-    <div style={{ display: 'flex' }}>
-      {/* <label>
-        <p className="form-label">{label}</p>
-      </label> */}
-      <div style={{ flexGrow: '1' }}>
-        {fields.map((field, index) => (
-          // dangerous???
-          <React.Fragment key={index}>
-            <Field
-              name={field}
-              label={label}
-              hideLabel={index !== 0}
-              placeholder="請輸入網址"
-              component={FormField}
-              button={renderButton(index)}
-            />
-            {/* <div style={{ flex: '100%', height: '0' }}></div> */}
-            {/* {renderButton(index)} */}
-          </React.Fragment>
-        ))}
-        {/* {error && <li>{error}</li>} */}
-      </div>
+    <div>
+      {fields.map((field, index) => (
+        // dangerous???
+        <React.Fragment key={index}>
+          <Field
+            name={field}
+            label={label}
+            hideLabel={index !== 0}
+            placeholder="請輸入想戒的網址"
+            component={FormField}
+            button={renderButton(index)}
+          />
+        </React.Fragment>
+      ))}
     </div>
   );
 };

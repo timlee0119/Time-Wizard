@@ -32,11 +32,7 @@ const FormField = ({
         <input className="form-input" {...input} placeholder={placeholder} />
       )}
 
-      {button ? (
-        button
-      ) : (
-        <button className="btn sm" style={{ visibility: 'hidden' }}></button>
-      )}
+      <div style={{ width: '4rem' }}>{button}</div>
       <div style={{ flexBasis: '100%', height: '0' }}></div>
       <div className="error" style={{ margin: 'auto' }}>
         {touched && error}

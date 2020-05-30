@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { reduxForm, Field, FieldArray } from 'redux-form';
 import FormField from './FormField';
 import FormFieldArray from './FormFieldArray';
+import IconTooltip from '../widgets/IconTooltip';
 import { isValidURI } from '../../utils/utils';
+import tooltipContents from './tooltipContents';
 
 class CreateMissionForm extends Component {
   render() {
@@ -12,7 +14,7 @@ class CreateMissionForm extends Component {
         <Field
           name="name"
           label="任務名稱："
-          placeholder="請輸入任務名稱"
+          placeholder="替你的戒斷任務取個名字吧！"
           component={FormField}
         />
         <Field
@@ -20,7 +22,7 @@ class CreateMissionForm extends Component {
           selectOptions={[1, 3, 5, 7, 10, 14]}
           selectValues={[1, 3, 5, 7, 10, 14]}
           label="執行天數："
-          placeholder="請選擇天數"
+          placeholder="請選擇執行天數"
           component={FormField}
         />
         {/* Remember to change value in seconds */}
@@ -38,13 +40,27 @@ class CreateMissionForm extends Component {
           ]}
           selectValues={[300, 600, 900, 1200, 1800, 2700, 3600, 7200]}
           label="單日限制時間："
-          placeholder="請選擇限制時間"
+          placeholder="請選擇單日限制時間"
+          button={
+            <IconTooltip
+              icon="help_outline"
+              id="limitTime-hint"
+              content={tooltipContents.limitTime}
+            />
+          }
           component={FormField}
         />
         <Field
           name="money"
           label="投入金額："
           placeholder="請輸入金額"
+          button={
+            <IconTooltip
+              icon="help_outline"
+              id="money-hint"
+              content={tooltipContents.money}
+            />
+          }
           component={FormField}
         />
         <FieldArray

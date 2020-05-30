@@ -11,11 +11,13 @@ class JoinMissionPage extends Component {
   };
   render() {
     return (
-      <div>
-        <img src={blueHeader} alt="orange_header" />
-        <h1>輸入朋友已建好的任務代碼吧！</h1>
-        <JoinMissionForm onSubmit={this.onFormSubmit} />
-      </div>
+      <>
+        <img style={{ width: '100%' }} src={blueHeader} alt="orange_header" />
+        <div className="card-block" style={{ width: '25rem' }}>
+          <h1>輸入朋友已建好的任務代碼吧！</h1>
+          <JoinMissionForm onSubmit={this.onFormSubmit} />
+        </div>
+      </>
     );
   }
 }
