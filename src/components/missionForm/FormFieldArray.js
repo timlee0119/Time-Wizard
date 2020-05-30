@@ -40,16 +40,15 @@ const FormFieldArray = ({ fields, label, meta: { error } }) => {
               name={field}
               label={label}
               hideLabel={index !== 0}
-              type="text"
               placeholder="請輸入網址"
               component={FormField}
               button={renderButton(index)}
             />
-            <div style={{ flex: '100%', height: '0' }}></div>
+            {/* <div style={{ flex: '100%', height: '0' }}></div> */}
             {/* {renderButton(index)} */}
           </React.Fragment>
         ))}
-        {error && <li>{error}</li>}
+        {/* {error && <li>{error}</li>} */}
       </div>
     </div>
   );

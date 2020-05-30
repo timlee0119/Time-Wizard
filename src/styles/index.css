@@ -17,6 +17,8 @@
 
   --form-text-color: #676767;
   --form-prev-color: #9fa0a1;
+
+  --error-color: #e53935;
 }
 
 * {
@@ -125,6 +127,7 @@ p {
 
 .form-field {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -142,6 +145,10 @@ p {
   margin: 0 0.5rem;
   padding-left: 0.8rem;
   flex-grow: 1;
+}
+
+.error {
+  color: var(--error-color);
 }
 
 .digital-clock {
