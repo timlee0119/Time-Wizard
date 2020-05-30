@@ -8,6 +8,7 @@ const FormField = ({
   selectValues,
   placeholder,
   button,
+  extra,
   meta: { error, touched }
 }) => {
   return (
@@ -33,8 +34,16 @@ const FormField = ({
       )}
 
       <div style={{ width: '4rem' }}>{button}</div>
-      <div style={{ flexBasis: '100%', height: '0' }}></div>
-      <div className="error" style={{ margin: 'auto' }}>
+      <div className="break"></div>
+      {extra && (
+        <>
+          <div className="text-second" style={{ margin: 'auto' }}>
+            {extra}
+          </div>
+          <div className="break"></div>
+        </>
+      )}
+      <div className="text-error" style={{ margin: 'auto' }}>
         {touched && error}
       </div>
     </div>

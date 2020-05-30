@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field, FieldArray } from 'redux-form';
+import { reduxForm, Field, FieldArray, formValueSelector } from 'redux-form';
 import FormField from './FormField';
 import FormFieldArray from './FormFieldArray';
 import IconTooltip from '../widgets/IconTooltip';
 import { isValidURI } from '../../utils/utils';
 import tooltipContents from './tooltipContents';
+import { connect } from 'react-redux';
 
 class CreateMissionForm extends Component {
+  renderDaileyMoney = () => {
+    let { days, money } = this.props;
+    if (days && money && validateMoney(money) === null) {
+      return `每日金額 ${(money / days).toFixed(1)} 元`;
+    }
+  };
   render() {
     return (
       <form onSubmit={this.props.handleSubmit}>
@@ -62,6 +69,7 @@ class CreateMissionForm extends Component {
             />
           }
           component={FormField}
+          extra={this.renderDaileyMoney()}
         />
         <FieldArray
           name="limitedWebsites"
@@ -99,6 +107,15 @@ class CreateMissionForm extends Component {
   }
 }
 
+function validateMoney(money) {
+  if (isNaN(money)) {
+    return '請輸入合法數字';
+  } else if (money < 10 || money > 10000) {
+    return '投入金額不得低於 10 或超過 10000 元';
+  }
+  return null;
+}
+
 function validate(values) {
   const errors = {};
 
@@ -109,11 +126,7 @@ function validate(values) {
     }
   });
 
-  if (isNaN(values.money)) {
-    errors.money = '請輸入合法數字';
-  } else if (values.money < 10 || values.money > 1000) {
-    errors.money = '投入金額不得低於 10 或超過 1000 元';
-  }
+  errors.money = validateMoney(values.money);
 
   if (values.limitedWebsites) {
     const webSitesErrors = [];
@@ -128,7 +141,7 @@ function validate(values) {
   return errors;
 }
 
-export default reduxForm({
+const createMissionForm = reduxForm({
   form: 'createMissionForm',
   validate,
   destroyOnUnmount: false,
@@ -136,3 +149,11 @@ export default reduxForm({
     limitedWebsites: ['']
   }
 })(CreateMissionForm);
+
+const selector = formValueSelector('createMissionForm');
+const mapStateToProps = state => {
+  const { days, money } = selector(state, 'days', 'money');
+  return { days, money };
+};
+
+export default connect(mapStateToProps)(createMissionForm);

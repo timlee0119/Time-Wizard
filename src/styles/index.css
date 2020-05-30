@@ -54,6 +54,11 @@ p {
   font-size: 0.9rem;
 }
 
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
 .app-background {
   display: flex;
   justify-content: center;
@@ -154,7 +159,15 @@ p {
   flex-grow: 1;
 }
 
-.error {
+.text-main {
+  color: var(--main-dark-color);
+}
+
+.text-second {
+  color: var(--second-dark-color);
+}
+
+.text-error {
   color: var(--error-color);
 }
 
