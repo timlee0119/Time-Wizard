@@ -14,12 +14,24 @@ class MissionPage extends Component {
   renderStartButton(me, friend) {
     if (friend) {
       return me.owner ? (
-        <button onClick={this.onStartClick}>立刻開始</button>
+        <button
+          style={{ margin: 'auto' }}
+          className="btn main"
+          onClick={this.onStartClick}
+        >
+          立刻開始
+        </button>
       ) : (
-        <button disabled={true}>等待夥伴開始</button>
+        <button style={{ margin: 'auto' }} className="btn main" disabled={true}>
+          等待夥伴開始
+        </button>
       );
     } else {
-      return <button disabled={true}>等待夥伴加入</button>;
+      return (
+        <button style={{ margin: 'auto' }} className="btn main" disabled={true}>
+          等待夥伴加入
+        </button>
+      );
     }
   }
 
@@ -35,11 +47,23 @@ class MissionPage extends Component {
     }
     const [me, friend] = this.getMe();
     return (
-      <div>
-        <h1>{this.props.auth.mission.name}</h1>
-        <h3>任務目前進度</h3>
-        {this.renderStartButton(me, friend)}
-        <div>
+      <div className="card-block" style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <div style={{ flexGrow: '1' }}>
+          <h1 className="text-main">{this.props.auth.mission.name}</h1>
+          <h2>任務資訊</h2>
+        </div>
+        <div style={{ flexGrow: '2', display: 'flex' }}>
+          {this.renderStartButton(me, friend)}
+        </div>
+        <div className="break"></div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+            marginTop: '1.5rem'
+          }}
+        >
           <MissionInfoBlock picture={profileBlue} participant={me} />
           {friend ? (
             <MissionInfoBlock picture={profileOrange} participant={friend} />

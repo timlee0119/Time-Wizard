@@ -70,11 +70,12 @@ class JoinMissionForm extends Component {
             }}
             className="btn main"
             type="submit"
+            disabled={this.props.submitting}
           >
             確認
           </button>
           <Link to="/">
-            <button className="btn-prev">
+            <button className="btn-prev" disabled={this.props.submitting}>
               <div>&#8227;</div>
               返回上一頁
             </button>

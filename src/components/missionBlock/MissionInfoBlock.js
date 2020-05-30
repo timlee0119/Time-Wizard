@@ -1,9 +1,8 @@
 import React from 'react';
-import Card from '../widgets/Card';
 
 const MissionInfoBlock = ({ picture, participant }) => {
   return (
-    <Card>
+    <div className="card inner" style={{ width: '45%' }}>
       {/* <img src={this.props.auth.picture} alt="me" /> */}
       <img src={picture} alt="me" />
       <h3>我</h3>
@@ -13,11 +12,11 @@ const MissionInfoBlock = ({ picture, participant }) => {
       {participant.limitTime}
       <p>限制網站</p>
       {participant.limitedWebsites.map(w => (
-        <div>{w}</div>
+        <div key={w}>{w}</div>
       ))}
       <p>使用時數趨勢</p>
       <p>目前共同帳戶基金</p>
-    </Card>
+    </div>
   );
 };
 

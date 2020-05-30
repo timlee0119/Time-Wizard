@@ -70,7 +70,6 @@ p {
   border-radius: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
@@ -93,6 +92,11 @@ p {
 
 [class^='btn'] {
   cursor: pointer;
+}
+
+[class^='btn']:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 .btn {
@@ -171,6 +175,11 @@ p {
 
 .text-error {
   color: var(--error-color);
+}
+
+@font-face {
+  font-family: 'digital-clock';
+  src: url('../../../fonts/digital-7.ttf');
 }
 
 .digital-clock {

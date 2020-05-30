@@ -6,8 +6,8 @@ import CreateMissionForm from './missionForm/CreateMissionForm';
 import orangeHeader from '../images/header_organge.png';
 
 class CreateMissionPage extends Component {
-  onFormSubmit = formValues => {
-    this.props.submitCreateMission(formValues);
+  onFormSubmit = async formValues => {
+    await this.props.submitCreateMission(formValues);
   };
   render() {
     return (
