@@ -6,9 +6,7 @@ const MissionInfoBlock = ({ picture, participant, days, money, me }) => {
   return (
     <div className="card inner" style={{ width: '45%', alignItems: 'start' }}>
       <img src={picture} alt="me" />
-      <h2 className={`text-${me ? 'main' : 'second'}`}>
-        {me ? '我' : participant.name}
-      </h2>
+      <h2 className={`text-${me ? 'main' : 'second'}`}>{participant.name}</h2>
       {/* <p>今日已使用時數</p>
       {100} */}
       <h2>每日限制時數</h2>

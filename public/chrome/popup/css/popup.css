@@ -21,7 +21,10 @@ p {
 }
 
 #popup_root {
+  display: flex;
+  flex-direction: column;
   width: 20rem;
+  min-height: 15rem;
   padding: 1rem;
 }
 

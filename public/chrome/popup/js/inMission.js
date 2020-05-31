@@ -36,6 +36,8 @@ function renderMission(data) {
       setContent(`#limitTime_${w}`, getTime(par.limitTime));
       setContent(`#limitedWebsites_${w}`, getWebsiteIcons(par.limitedWebsites));
       setContent(`#totalDays_${w}`, days);
+      document.querySelector('#content').style.display = 'block';
+      document.querySelector('#loading').style.display = 'none';
     }
     setContent(`#todayUsage_${w}`, getTime(his[his.length - 1]));
     setContent(`#successDay_${w}`, par.successDay);
