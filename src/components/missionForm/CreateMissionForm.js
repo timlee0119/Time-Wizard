@@ -98,8 +98,8 @@ class CreateMissionForm extends Component {
           </button>
           <Link to="/">
             <button className="btn-prev" disabled={this.props.submitting}>
-              <div>&#8227;</div>
-              返回上一頁
+              <span className="material-icons">arrow_left</span>
+              <span>返回上一頁</span>
             </button>
           </Link>
         </div>

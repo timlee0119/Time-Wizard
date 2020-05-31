@@ -1,24 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300&display=swap');
-
-:root {
-  --main-color: #54a3e6;
-  --title-color: #616161;
-  --text-color: #6f6f6f;
-}
-
-* {
-  /* border: solid 1px black; */
-  box-sizing: border-box;
-  position: relative;
-}
+@import '../../../common.css';
 
 body {
   font-family: 'Noto Sans TC', sans-serif;
-}
-
-@font-face {
-  font-family: 'digital-clock';
-  src: url('../../../fonts/digital-7.ttf');
 }
 
 h1 {
@@ -27,7 +11,7 @@ h1 {
 }
 
 h3 {
-  color: var(--main-color);
+  color: var(--main-dark-color);
 }
 
 p {
@@ -53,20 +37,11 @@ p {
 }
 
 .btn.main {
-  background-color: var(--main-color);
+  background-color: var(--main-dark-color);
   color: rgba(255, 255, 255, 0.8);
 }
 
 .btn.cancel {
   background-color: #bdbdbd;
   color: rgba(255, 255, 255, 0.8);
-}
-
-.digital-clock {
-  font-family: 'digital-clock';
-  font-size: 2rem;
-}
-
-.digital-clock > span > span {
-  margin: auto -0.15rem;
 }

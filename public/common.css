@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  position: relative;
+}
+
+:root {
+  --main-color: #b8deff;
+  --main-dark-color: #54a3e6;
+  --main-darker-color: #3589d1;
+  --main-light-color: #d3eaff;
+  --main-shadow: #70a0ca4f;
+
+  --second-color: #fa8f58;
+  --second-dark-color: #ff7a35;
+  --second-light-color: #fbb591;
+  --second-shadow: #fcc1a3c4;
+
+  --title-color: #616161;
+  --text-color: #6f6f6f;
+
+  --form-text-color: #676767;
+  --form-prev-color: #9fa0a1;
+
+  --error-color: #ef5350;
+  --error-shadow: #fca3a3c4;
+}
+
+@font-face {
+  font-family: 'digital-clock';
+  src: url('../../../fonts/digital-7.ttf');
+}
+
+.digital-clock {
+  font-family: 'digital-clock';
+  font-size: 2rem;
+}
+
+.digital-clock > span > span {
+  margin: auto -0.15rem;
+}

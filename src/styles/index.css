@@ -22,11 +22,6 @@
   --error-shadow: #fca3a3c4;
 }
 
-* {
-  box-sizing: border-box;
-  position: relative;
-}
-
 html,
 body {
   width: 100%;
@@ -39,6 +34,10 @@ body {
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 75%;
   background-color: var(--main-light-color);
+}
+
+a {
+  text-decoration: none;
 }
 
 h1 {
@@ -134,13 +133,8 @@ p {
   border: none;
   background: none;
   color: var(--form-prev-color);
-}
-
-.btn-prev > div {
-  display: inline-block;
-  transform: rotate(180deg) scale(2, 1.2);
-  line-height: 100%;
-  margin-right: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .form-field {
@@ -176,26 +170,3 @@ p {
 .text-error {
   color: var(--error-color);
 }
-
-@font-face {
-  font-family: 'digital-clock';
-  src: url('../../../fonts/digital-7.ttf');
-}
-
-.digital-clock {
-  font-family: 'digital-clock';
-  font-size: 2rem;
-}
-
-.digital-clock > span > span {
-  margin: auto -0.15rem;
-}
-
-/* .card {
-  display: inline-block;
-  vertical-align: top;
-  width: 300px;
-  min-height: 600px;
-  border-radius: 10px;
-  border: solid 1px;
-} */
