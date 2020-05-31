@@ -9,7 +9,7 @@ const tooltipContents = {
     </>
   ),
   limitTime: <>您一天最多能使用限制網站多久？若超過時間則當日視同任務失敗</>,
-  code: <>任務創建者會拿到一組任務代碼，向您創建任務的朋友取得吧！</>
+  code: <>任務創建者會拿到一組邀請代碼，向您創建任務的朋友取得吧！</>
 };
 
 export default tooltipContents;

@@ -45,7 +45,7 @@ export const submitJoinMission = formValues => async dispatch => {
   } catch (error) {
     // mission code not found!
     if (error.response && error.response.status === 404) {
-      alert('請輸入正確的任務代碼唷！');
+      alert('請輸入正確的邀請代碼唷！');
     } else {
       alert('加入任務失敗');
       console.error(error);

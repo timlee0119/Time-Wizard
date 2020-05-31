@@ -6,3 +6,9 @@ export function isValidURI(str) {
     return false;
   }
 }
+
+export function getTime(seconds) {
+  var str = new Date(1000 * seconds).toISOString().substr(11, 8);
+  // return str.replace(/:/g, '<span>:</span>');
+  return str;
+}

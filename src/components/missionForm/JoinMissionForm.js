@@ -13,7 +13,7 @@ class JoinMissionForm extends Component {
       <form onSubmit={this.props.handleSubmit}>
         <Field
           name="code"
-          label="任務代碼："
+          label="任務邀請代碼："
           button={
             <IconTooltip
               icon="help_outline"
@@ -21,7 +21,7 @@ class JoinMissionForm extends Component {
               content={tooltipContents.code}
             />
           }
-          placeholder="請輸入朋友的任務代碼"
+          placeholder="請輸入朋友的任務邀請代碼"
           component={FormField}
         />
         {/* Remember to change value in seconds */}

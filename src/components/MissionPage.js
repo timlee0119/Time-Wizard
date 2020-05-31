@@ -64,9 +64,20 @@ class MissionPage extends Component {
             marginTop: '1.5rem'
           }}
         >
-          <MissionInfoBlock picture={profileBlue} participant={me} />
+          <MissionInfoBlock
+            picture={profileBlue}
+            participant={me}
+            days={this.props.auth.mission.days}
+            money={this.props.auth.mission.money}
+            me
+          />
           {friend ? (
-            <MissionInfoBlock picture={profileOrange} participant={friend} />
+            <MissionInfoBlock
+              picture={profileOrange}
+              participant={friend}
+              days={this.props.auth.mission.days}
+              money={this.props.auth.mission.money}
+            />
           ) : (
             <MissionInviteBlock
               picture={profileOrange}

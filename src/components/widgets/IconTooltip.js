@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 
-export default props => {
+export default ({ id, icon, content, place }) => {
   return (
     <>
       <span
         className="material-icons"
         style={{ cursor: 'pointer', color: 'var(--main-dark-color)' }}
         data-tip
-        data-for={props.id}
+        data-for={id}
       >
-        {props.icon}
+        {icon}
       </span>
-      <ReactTooltip id={props.id} place="bottom" effect="solid">
-        {props.content}
+      <ReactTooltip id={id} place={place || 'bottom'} effect="solid">
+        {content}
       </ReactTooltip>
     </>
   );
