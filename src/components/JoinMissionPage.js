@@ -6,8 +6,8 @@ import JoinMissionForm from './missionForm/JoinMissionForm';
 import blueHeader from '../images/header_blue.png';
 
 class JoinMissionPage extends Component {
-  onFormSubmit = formValues => {
-    this.props.submitJoinMission(formValues);
+  onFormSubmit = async formValues => {
+    await this.props.submitJoinMission(formValues);
   };
   render() {
     return (

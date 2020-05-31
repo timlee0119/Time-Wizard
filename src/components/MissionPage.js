@@ -6,9 +6,22 @@ import MissionInviteBlock from './missionBlock/MissionInviteBlock';
 import profileBlue from '../images/profile_blue.png';
 import profileOrange from '../images/profile_orange.png';
 
+const MissionStarted = () => (
+  <div style={{ margin: 'auto' }}>
+    <h1 className="text-main">
+      任務已經開始囉！現在可以點選插件圖示，開始監控使用情形
+    </h1>
+  </div>
+);
+
 class MissionPage extends Component {
-  onStartClick = () => {
-    this.props.submitStartMission();
+  state = {
+    startBtnDisabled: false
+  };
+  onStartClick = async () => {
+    this.setState({ startBtnDisabled: true });
+    await this.props.submitStartMission();
+    this.setState({ startBtnDisabled: false });
   };
 
   renderStartButton(me, friend) {
@@ -18,6 +31,7 @@ class MissionPage extends Component {
           style={{ margin: 'auto' }}
           className="btn main"
           onClick={this.onStartClick}
+          disabled={this.state.startBtnDisabled}
         >
           立刻開始
         </button>
@@ -43,7 +57,7 @@ class MissionPage extends Component {
 
   render() {
     if (this.props.auth.mission.startTime) {
-      return <div>任務已經開始囉！現在可以點選插件圖示，開始監控使用情形</div>;
+      return <MissionStarted />;
     }
     const [me, friend] = this.getMe();
     return (
