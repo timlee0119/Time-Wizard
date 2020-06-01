@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Intervention</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./css/popup.css" />
     <link rel="stylesheet" href="./css//inMission.css" />
     <script type="text/javascript" src="./js/inMission.js"></script>
@@ -12,53 +16,89 @@
   <body>
     <div id="popup_root">
       <div id="content">
-        <h1 id="mission_name">---</h1>
+        <h2 class="text-main" id="mission_name">---</h2>
         <!-- me -->
-        <div>
+        <div class="user_block">
           <img src="../../images/profile_blue.png" alt="blue_ghost" />
-          <h2 id="name_me">我</h2>
-          <h3>今日已使用的時數 / 限制時數：</h3>
-          <p class="digital-clock">
-            <span id="todayUsage_me">00:00:00</span> /
-            <span id="limitTime_me">00:00:00</span>
-          </p>
-          <h3>限制網站：</h3>
-          <div id="limitedWebsites_me">-</div>
-          <span><h3>成功天數 / 總天數：</h3></span
-          ><span
-            ><p>
-              <span id="successDay_me">0</span> /
-              <span id="totalDays_me">0</span>
-            </p></span
-          >
-          <h3>使用時數趨勢</h3>
-          <div>Diagram</div>
-          <span><h3>目前帳戶基金：</h3></span
-          ><span><h3 id="bonus_me">0</h3></span>
+          <div class="user-info">
+            <h2 id="name_me">我</h2>
+            <h3>今日已使用的時數 / 限制時數：</h3>
+            <p class="digital-clock">
+              <span id="todayUsage_me">00:00:00</span> /
+              <span id="limitTime_me">00:00:00</span>
+            </p>
+            <button class="btn-more_info">
+              <span class="material-icons">arrow_drop_down</span>
+              <span>看更多資訊</span>
+            </button>
+            <!-- Collapsible -->
+            <div class="collapsible">
+              <h3>限制網站：</h3>
+              <div id="limitedWebsites_me">-</div>
+              <h3 style="display: inline-block;">成功天數 / 總天數：</h3>
+              <p style="display: inline-block;">
+                <span id="successDay_me">0</span> /
+                <span id="totalDays_me">0</span>
+              </p>
+              <h3>使用時數趨勢</h3>
+              <div>Diagram</div>
+              <h3 style="display: inline-block;">目前累積金額：</h3>
+              <h3
+                style="display: inline-block;"
+                class="text-main"
+                id="bonus_me"
+              >
+                0
+              </h3>
+              <br />
+              <button class="btn-less_info">
+                <span class="material-icons">arrow_drop_up</span>
+                <span>更少資訊</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- friend -->
-        <div>
+        <div class="user_block">
           <img src="../../images//profile_orange.png" alt="orange_ghost" />
-          <h2 id="name_friend">夥伴小橘</h2>
-          <h3>今日已使用的時數 / 限制時數：</h3>
-          <p class="digital-clock">
-            <span id="todayUsage_friend">00:00:00</span> /
-            <span id="limitTime_friend">00:00:00</span>
-          </p>
-          <h3>限制網站：</h3>
-          <div id="limitedWebsites_friend">-</div>
-          <span><h3>成功天數 / 總天數：</h3></span
-          ><span
-            ><p>
-              <span id="successDay_friend">0</span> /
-              <span id="totalDays_friend">0</span>
-            </p></span
-          >
-          <h3>使用時數趨勢</h3>
-          <div>Diagram</div>
-          <span><h3>目前帳戶基金：</h3></span
-          ><span><h3 id="bonus_friend">0</h3></span>
+          <div class="user-info">
+            <h2 id="name_friend">夥伴小橘</h2>
+            <h3>今日已使用的時數 / 限制時數：</h3>
+            <p class="digital-clock">
+              <span id="todayUsage_friend">00:00:00</span> /
+              <span id="limitTime_friend">00:00:00</span>
+            </p>
+            <button class="btn-more_info">
+              <span class="material-icons">arrow_drop_down</span>
+              <span>看更多資訊</span>
+            </button>
+            <!-- Collapsible -->
+            <div class="collapsible">
+              <h3>限制網站：</h3>
+              <div id="limitedWebsites_friend">-</div>
+              <h3 style="display: inline-block;">成功天數 / 總天數：</h3>
+              <p style="display: inline-block;">
+                <span id="successDay_friend">0</span> /
+                <span id="totalDays_friend">0</span>
+              </p>
+              <h3>使用時數趨勢</h3>
+              <div>Diagram</div>
+              <h3 style="display: inline-block;">目前累積金額：</h3>
+              <h3
+                style="display: inline-block;"
+                class="text-second"
+                id="bonus_friend"
+              >
+                0
+              </h3>
+              <br />
+              <button class="btn-less_info">
+                <span class="material-icons">arrow_drop_up</span>
+                <span>更少資訊</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

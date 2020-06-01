@@ -30,9 +30,21 @@
   src: url('../../../fonts/digital-7.ttf');
 }
 
+.text-main {
+  color: var(--main-dark-color);
+}
+
+.text-second {
+  color: var(--second-dark-color);
+}
+
+.text-error {
+  color: var(--error-color);
+}
+
 .digital-clock {
   font-family: 'digital-clock';
-  font-size: 2rem;
+  font-size: 1.4rem;
 }
 
 .digital-clock > span > span {

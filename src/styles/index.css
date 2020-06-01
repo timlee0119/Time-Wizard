@@ -158,15 +158,3 @@ p {
   padding-left: 0.8rem;
   flex-grow: 1;
 }
-
-.text-main {
-  color: var(--main-dark-color);
-}
-
-.text-second {
-  color: var(--second-dark-color);
-}
-
-.text-error {
-  color: var(--error-color);
-}
