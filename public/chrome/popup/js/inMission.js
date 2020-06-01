@@ -50,7 +50,8 @@ function renderMission(data) {
     var todayTime = getTime(his[his.length - 1]);
     setContent(`#todayUsage_${w}`, todayTime);
     if (todayTime >= limitTime) {
-      document.querySelector(`#todayUsage_${w}`).classList.add('text-error');
+      document.querySelector(`#todayUsage_${w}`).style.color =
+        'var(--error-color)';
     }
     setContent(`#successDay_${w}`, par.successDay);
     setContent(`#bonus_${w}`, `+ ${par.bonus}`);
