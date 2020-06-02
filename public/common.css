@@ -32,12 +32,20 @@
   src: url('../../../fonts/digital-7.ttf');
 }
 
+.margin-zero {
+  margin: 0;
+}
+
 .text-main {
   color: var(--main-dark-color);
 }
 
 .text-second {
   color: var(--second-dark-color);
+}
+
+.text-gray {
+  color: var(--text-color);
 }
 
 .text-error {
