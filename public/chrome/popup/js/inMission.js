@@ -27,7 +27,7 @@ function getWebsiteIcons(websites) {
 
 function renderMission(data) {
   const { name, days, ended, startTime, ...participants } = data;
-  // console.log('renderMission receive data: ', data);
+  console.log('renderMission receive data: ', data);
 
   if (ended) {
     document.location.href = './popup_missionEnded.html';
@@ -43,7 +43,7 @@ function renderMission(data) {
       setContent(`#limitTime_${w}`, getTime(par.limitTime));
       setContent(`#limitedWebsites_${w}`, getWebsiteIcons(par.limitedWebsites));
       setContent(`#totalDays_${w}`, days);
-      setContent(`#refreshTime_${w}`, startTime.substr(11, 8));
+      setContent(`#refreshTime_${w}`, new Date(startTime).toLocaleTimeString());
 
       // Testing!!!
       // drawTrendChart(
