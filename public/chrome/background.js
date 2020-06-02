@@ -97,6 +97,7 @@ class WebsiteMonitor {
         monitor.popupPort.postMessage({
           name: mission.name,
           days: mission.days,
+          startTime: mission.startTime,
           me: mission.participants[monitor.userIndex],
           friend: mission.participants[(monitor.userIndex + 1) % 2]
         });

@@ -10,6 +10,15 @@
     />
     <link rel="stylesheet" href="./css/popup.css" />
     <link rel="stylesheet" href="./css//inMission.css" />
+    <script
+      type="text/javascript"
+      src="../lib/Chart.min.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../lib/chartjs-plugin-annotation.js"
+    ></script>
+    <script type="text/javascript" src="./js/darwTrendChart.js"></script>
     <script type="text/javascript" src="./js/inMission.js"></script>
   </head>
 
@@ -22,7 +31,7 @@
           <img src="../../images/profile_blue.png" alt="blue_ghost" />
           <div class="user-info">
             <h2 id="name_me">我</h2>
-            <h3>今日已使用的時數 / 限制時數：</h3>
+            <h3>今日已使用時數 / 限制時數：</h3>
             <p class="digital-clock">
               <span id="todayUsage_me">00:00:00</span> /
               <span id="limitTime_me">00:00:00</span>
@@ -36,12 +45,16 @@
               <h3>限制網站：</h3>
               <div id="limitedWebsites_me">-</div>
               <h3 style="display: inline-block;">成功天數 / 總天數：</h3>
-              <p style="display: inline-block;">
+              <h3 style="display: inline-block;">
                 <span id="successDay_me">0</span> /
                 <span id="totalDays_me">0</span>
-              </p>
+              </h3>
               <h3>使用時數趨勢</h3>
-              <div>Diagram</div>
+              <div>
+                <canvas class="trend_chart main"></canvas>
+                <div class="btn-chart_left"></div>
+                <div class="btn-chart_right"></div>
+              </div>
               <h3 style="display: inline-block;">目前累積金額：</h3>
               <h3
                 style="display: inline-block;"
@@ -50,6 +63,10 @@
               >
                 0
               </h3>
+              <h3>使用時數將在以下時間重置：</h3>
+              <p class="digital-clock">
+                <span id="refreshTime_me"">00:00:00</span>
+              </p>
               <br />
               <button class="btn-less_info">
                 <span class="material-icons">arrow_drop_up</span>
@@ -64,7 +81,7 @@
           <img src="../../images//profile_orange.png" alt="orange_ghost" />
           <div class="user-info">
             <h2 id="name_friend">夥伴小橘</h2>
-            <h3>今日已使用的時數 / 限制時數：</h3>
+            <h3>今日已使用時數 / 限制時數：</h3>
             <p class="digital-clock">
               <span id="todayUsage_friend">00:00:00</span> /
               <span id="limitTime_friend">00:00:00</span>
@@ -78,12 +95,16 @@
               <h3>限制網站：</h3>
               <div id="limitedWebsites_friend">-</div>
               <h3 style="display: inline-block;">成功天數 / 總天數：</h3>
-              <p style="display: inline-block;">
+              <h3 style="display: inline-block;">
                 <span id="successDay_friend">0</span> /
                 <span id="totalDays_friend">0</span>
-              </p>
+              </h3>
               <h3>使用時數趨勢</h3>
-              <div>Diagram</div>
+              <div>
+                <canvas class="trend_chart second"></canvas>
+                <div class="btn-chart_left"></div>
+                <div class="btn-chart_right"></div>
+              </div>
               <h3 style="display: inline-block;">目前累積金額：</h3>
               <h3
                 style="display: inline-block;"
@@ -92,6 +113,10 @@
               >
                 0
               </h3>
+              <h3>使用時數將在以下時間重置：</h3>
+              <p class="digital-clock">
+                <span id="refreshTime_friend">00:00:00</span>
+              </p>
               <br />
               <button class="btn-less_info">
                 <span class="material-icons">arrow_drop_up</span>
