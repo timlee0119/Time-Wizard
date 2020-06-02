@@ -52,8 +52,8 @@ function renderMission(data) {
       //   par.limitTime
       // );
       // drawTrendChart(i, [0, 0, 0, 0, 0, 0, 0, 0], par.limitTime);
-      drawTrendChart(i, [680, 950], par.limitTime);
-      // drawTrendChart(i, his, par.limitTime);
+      // drawTrendChart(i, [680, 950], par.limitTime);
+      drawTrendChart(i, his, par.limitTime);
 
       document.querySelector('#content').style.display = 'block';
       document.querySelector('#loading').style.display = 'none';
