@@ -1,48 +1,68 @@
 var _charts = [undefined, undefined];
 var _chartsPage = [0, 0];
 var _histories = [undefined, undefined];
+var _colors = ['#54A3E6', '#FA8F58'];
 
 function onChartClick(i, dir) {
-  var maxPage = _histories[i].length / 7;
+  console.log(i, dir);
+  var maxPage = Math.floor((_histories[i].length - 1) / 7);
   var update = false;
-  if (dir === 'left' && i > -maxPage) {
+  if (dir === 'left' && _chartsPage[i] > -maxPage) {
     _chartsPage[i]--;
     update = true;
-  } else if (dir === 'right' && i < 0) {
+  } else if (dir === 'right' && _chartsPage[i] < 0) {
     _chartsPage[i]++;
     update = true;
   }
   if (update) {
-    var [labels, data] = getLabelData();
+    var [labels, data] = getLabelsAndData(i);
     _charts[i].data.labels = labels;
     _charts[i].data.datasets[0].data = data;
     _charts[i].update();
   }
 }
 
+function getTimeString(sec) {
+  var minutes = Math.floor(sec / 60);
+  sec %= 60;
+  if (minutes > 0) {
+    return `${minutes}分` + (sec > 0 ? `${sec}秒` : '');
+  } else {
+    return `${sec}秒`;
+  }
+}
+
 function getNdayFromNowString(n) {
   var d = new Date();
-  d.setDate(-n);
+  d.setDate(d.getDate() - n);
   return `${d.getMonth() + 1}/${d.getDate()}`;
 }
 
-function getLabelData(i) {
+function getLabelsAndData(i) {
   var hist = _histories[i];
-  var lastIndex = hist.length - 1 - _chartsPage[i] * 7;
+  var lastIndex = hist.length - 1 + _chartsPage[i] * 7;
   var labels = [];
   var data = [];
   for (var j = Math.max(0, lastIndex - 6); j <= lastIndex; ++j) {
-    labels.push(getNdayFromNowString(hist.length - 1 - j));
+    // labels.push(getNdayFromNowString(hist.length - 1 - j));
+    labels.push(`Day${j + 1}`);
     data.push(hist[j]);
   }
+
+  // trick to prevent chart.js display bug
+  if (labels.length < 3) {
+    labels = [null, ...labels, null];
+    data = [null, ...data, null];
+  }
+
   return [labels, data];
 }
 
 function drawTrendChart(i, history, limit) {
-  console.log(i, history, limit);
   var ctx = document.querySelectorAll('.trend_chart')[i];
   _histories[i] = history;
-  var [labels, data] = getLabelData(i);
+  var [labels, data] = getLabelsAndData(i);
+  console.log(labels, data);
 
   var myChart = new Chart(ctx, {
     type: 'line',
@@ -54,9 +74,9 @@ function drawTrendChart(i, history, limit) {
           data,
           lineTension: 0.3,
           fill: false,
-          borderColor: 'var(--main-dark-color)',
+          borderColor: _colors[i],
           borderWidth: 2,
-          backgroundColor: 'var(--main-dark-color)'
+          backgroundColor: _colors[i]
         }
       ]
     },
@@ -72,7 +92,11 @@ function drawTrendChart(i, history, limit) {
             },
             ticks: {
               fontSize: 10,
-              fontColor: 'var(--main-dark-color)'
+              fontColor: _colors[i],
+              autoSkip: false,
+              callback: function (value) {
+                return value && value;
+              }
             }
           }
         ],
@@ -83,19 +107,30 @@ function drawTrendChart(i, history, limit) {
               color: 'white'
             },
             ticks: {
-              fontSize: 10,
-              fontColor: '#54A3E6',
-              maxTicksLimit: 6,
-              padding: 5,
-              callback: function (value, index, values) {
-                return '$' + value;
-              }
+              display: false,
+              suggestedMax:
+                Math.max(...data.filter(d => d !== null), limit) + 200,
+              // suggestedMin:
+              //   Math.min(...data.filter(d => d !== null), limit) * 0.95,
+              beginAtZero: true
+              // fontSize: 10,
+              // fontColor: _colors[i],
+              // maxTicksLimit: 6,
+              // padding: 5,
+              // callback: function (value, index, values) {
+              //   return getTimeString(value);
+              // }
             }
           }
         ]
       },
       tooltips: {
-        displayColors: false
+        displayColors: false,
+        callbacks: {
+          label: function (tooltipItems, data) {
+            return getTimeString(tooltipItems.yLabel);
+          }
+        }
       },
       annotation: {
         drawTime: 'afterDraw',
@@ -112,7 +147,7 @@ function drawTrendChart(i, history, limit) {
               enabled: false,
               fontSize: 10,
               backgroundColor: 'rgba(0,0,0,0.8)',
-              content: '單日限制時數: ' + limit
+              content: '單日限制時數: ' + getTimeString(limit)
             },
             onMouseenter: function (e) {
               this.options.borderColor = 'rgba(255,0,0,0.8)';

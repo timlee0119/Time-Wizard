@@ -27,7 +27,7 @@ function getWebsiteIcons(websites) {
 
 function renderMission(data) {
   const { name, days, ended, startTime, ...participants } = data;
-  console.log('renderMission receive data: ', data);
+  // console.log('renderMission receive data: ', data);
 
   if (ended) {
     document.location.href = './popup_missionEnded.html';
@@ -44,7 +44,17 @@ function renderMission(data) {
       setContent(`#limitedWebsites_${w}`, getWebsiteIcons(par.limitedWebsites));
       setContent(`#totalDays_${w}`, days);
       setContent(`#refreshTime_${w}`, startTime.substr(11, 8));
-      drawTrendChart(i, his, par.limitTime);
+
+      // Testing!!!
+      // drawTrendChart(
+      //   i,
+      //   [100, 800, 3000, 0, 900, 560, 700, 950, 800, 4000, 0, 0, 450, 700],
+      //   par.limitTime
+      // );
+      // drawTrendChart(i, [0, 0, 0, 0, 0, 0, 0, 0], par.limitTime);
+      drawTrendChart(i, [680, 950], par.limitTime);
+      // drawTrendChart(i, his, par.limitTime);
+
       document.querySelector('#content').style.display = 'block';
       document.querySelector('#loading').style.display = 'none';
     }
@@ -72,7 +82,7 @@ window.onload = function () {
   var moreBtns = document.querySelectorAll('.btn-more_info');
   var lessBtns = document.querySelectorAll('.btn-less_info');
   var collapsibles = document.querySelectorAll('.collapsible');
-  for (var i = 0; i < moreBtns.length; ++i) {
+  for (let i = 0; i < moreBtns.length; ++i) {
     moreBtns[i].addEventListener(
       'click',
       onCollapseClick(moreBtns[i], collapsibles[i])
@@ -83,10 +93,11 @@ window.onload = function () {
     );
   }
   // for chart buttons
-  var leftBtns = document.querySelectorAll('btn-chart_left');
-  var rightBtns = document.querySelectorAll('btn-chart_right');
-  for (var i = 0; i < leftBtns.length; ++i) {
-    leftBtns[i].addEventListener('click', onChartClick(i, 'left'));
-    rightBtns[i].addEventListener('click', onChartClick(i, 'right'));
+  var leftBtns = document.querySelectorAll('.btn-chart_left');
+  var rightBtns = document.querySelectorAll('.btn-chart_right');
+  // use let to have correct i value in closure
+  for (let i = 0; i < leftBtns.length; ++i) {
+    leftBtns[i].addEventListener('click', () => onChartClick(i, 'left'));
+    rightBtns[i].addEventListener('click', () => onChartClick(i, 'right'));
   }
 };
