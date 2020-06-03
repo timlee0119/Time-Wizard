@@ -162,3 +162,30 @@ p {
   padding-left: 0.8rem;
   flex-grow: 1;
 }
+
+.trend_chart {
+  border-radius: 10px;
+  padding: 5px;
+  width: 100%;
+  height: 12rem !important;
+  background-color: var(--main-bg-color);
+}
+.btn-chart_left {
+  position: absolute;
+  width: 0.8rem;
+  height: 2rem;
+  top: 4rem;
+  left: -0.5rem;
+  opacity: 0.4;
+}
+.btn-chart_right {
+  position: absolute;
+  width: 0.8rem;
+  height: 2rem;
+  top: 4rem;
+  right: 1.7rem;
+  opacity: 0.4;
+}
+[class^='btn-chart']:hover {
+  opacity: 1;
+}

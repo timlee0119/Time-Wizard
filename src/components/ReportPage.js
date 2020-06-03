@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
+import TrendChart from './widgets/TrendChart';
 import profileBlue from '../images/profile_blue.png';
 import reportImg from '../images/report.png';
 
@@ -13,12 +14,14 @@ class ReportPage extends Component {
         : this.props.auth.mission.participants[1];
     const totalTime = this.getTotalTime(me.usageHistory);
 
-    this.state = { me, totalTime };
+    this.state = { me, totalTime, btnDisabled: false };
   }
 
   // TODO: put chrome.runtime.sendMessage to action creator
-  onHomepageClick = () => {
-    this.props.dismissMission();
+  onHomepageClick = async () => {
+    this.setState({ btnDisabled: true });
+    await this.props.dismissMission();
+    this.setState({ btnDisabled: false });
   };
 
   getTotalTime(history) {
@@ -91,15 +94,22 @@ class ReportPage extends Component {
             {this.state.me.successDay} / {this.props.auth.mission.days}
           </p>
         </div>
-        {/* history trend */}
-        {/* money */}
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h3>使用時數趨勢</h3>
+          <TrendChart
+            history={this.state.me.usageHistory.slice(
+              0,
+              this.props.auth.mission.days
+            )}
+            limit={this.state.me.limitTime}
+          />
+        </div>
         <div>
           <h3>初始投入金額</h3>
           <p>{this.props.auth.mission.money / 2}</p>
           <h3>贖回金額</h3>
           <p className="text-main">+{this.state.me.bonus}</p>
         </div>
-        {/* footer */}
         <div
           style={{
             backgroundImage: `url(${reportImg})`,
@@ -113,7 +123,11 @@ class ReportPage extends Component {
           }}
         >
           <h3 className="text-main">與朋友繼續提升專注度的旅程吧！</h3>
-          <button className="btn main" onClick={this.onHomepageClick}>
+          <button
+            className="btn main"
+            disabled={this.state.btnDisabled}
+            onClick={this.onHomepageClick}
+          >
             前往首頁
           </button>
         </div>
