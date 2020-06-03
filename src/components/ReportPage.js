@@ -12,9 +12,8 @@ class ReportPage extends Component {
       this.props.auth.mission.participants[0]._user === this.props.auth._id
         ? this.props.auth.mission.participants[0]
         : this.props.auth.mission.participants[1];
-    const totalTime = this.getTotalTime(me.usageHistory);
 
-    this.state = { me, totalTime, btnDisabled: false };
+    this.state = { me, btnDisabled: false };
   }
 
   // TODO: put chrome.runtime.sendMessage to action creator
@@ -24,12 +23,12 @@ class ReportPage extends Component {
     this.setState({ btnDisabled: false });
   };
 
-  getTotalTime(history) {
+  getAvgTime(history) {
     var totalTime = 0;
     for (var i = 0; i < this.props.auth.mission.days; ++i) {
       totalTime += history[i];
     }
-    return totalTime;
+    return Math.floor(totalTime / this.props.auth.mission.days);
   }
 
   getTimeText(seconds) {
@@ -58,12 +57,12 @@ class ReportPage extends Component {
         </div>
         <div style={{ display: 'flex', margin: '1rem 0' }}>
           <div style={{ flexGrow: '1' }}>
-            <h3>總使用時數</h3>
+            <h3>每日平均使用時數</h3>
             <p
               style={{ fontSize: '3rem', margin: '0 0 1.5rem' }}
               className="digital-clock text-main"
             >
-              {this.getTimeText(this.state.totalTime)}
+              {this.getTimeText(this.getAvgTime(this.state.me.usageHistory))}
             </p>
           </div>
           <div style={{ flexGrow: '1' }}>
