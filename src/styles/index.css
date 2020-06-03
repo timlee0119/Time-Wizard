@@ -48,6 +48,10 @@ h2 {
   color: var(--text-color);
 }
 
+h3 {
+  color: var(--text-color);
+}
+
 p {
   color: var(--text-color);
   font-size: 0.9rem;

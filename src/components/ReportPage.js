@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as actions from '../actions';
 import profileBlue from '../images/profile_blue.png';
+import reportImg from '../images/report.png';
 
 class ReportPage extends Component {
   constructor(props) {
@@ -36,51 +37,55 @@ class ReportPage extends Component {
 
   render() {
     return (
-      <div>
-        {/* Descriptions */}
-        <div>
-          <img src={profileBlue} alt="blue_ghost" />
+      <div style={{ margin: '8%' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            style={{ marginRight: '2rem', width: '7rem' }}
+            src={profileBlue}
+            alt="blue_ghost"
+          />
           <div>
-            <h1>{this.props.auth.mission.name}</h1>
-            <p>任務結束了！來看一下自己的成果吧，下次繼續加油！</p>
+            <h1 style={{ marginBottom: '0.5rem' }} className="text-main">
+              {this.props.auth.mission.name}
+            </h1>
+            <h3 style={{ marginTop: '0.5rem' }}>
+              任務結束了！來看一下自己的成果吧，下次繼續加油！
+            </h3>
           </div>
         </div>
-        {/* Time */}
-        <div>
-          <div>
+        <div style={{ display: 'flex', margin: '1rem 0' }}>
+          <div style={{ flexGrow: '1' }}>
             <h3>總使用時數</h3>
-            <p className="digital_clock">
+            <p
+              style={{ fontSize: '3rem', margin: '0 0 1.5rem' }}
+              className="digital-clock text-main"
+            >
               {this.getTimeText(this.state.totalTime)}
             </p>
           </div>
-          <div>
+          <div style={{ flexGrow: '1' }}>
             <h3>單日限制時數</h3>
-            <p className="digital_clock">
+            <p
+              style={{ fontSize: '3rem', margin: '0 0 1.5rem' }}
+              className="digital-clock"
+            >
               {this.getTimeText(this.state.me.limitTime)}
             </p>
           </div>
         </div>
-        {/* limited websites */}
-        <div>
+        <div style={{ marginBottom: '1.5rem' }}>
           <h3>限制網站</h3>
           {this.state.me.limitedWebsites.map(w => (
-            <div key={w}>
+            <div key={w} style={{ display: 'flex', alignItems: 'center' }}>
               <img
                 src={`http://www.google.com/s2/favicons?domain=${w}`}
-                alt="favicon"
-                style={{
-                  verticalAlign: 'middle',
-                  width: '1rem',
-                  height: '1rem',
-                  paddingRight: '0.5rem'
-                }}
+                alt={w}
               />
-              <p style={{ display: 'inline', verticalAlign: 'middle' }}>{w}</p>
+              <p style={{ margin: '0 0.5rem' }}>{w}</p>
             </div>
           ))}
         </div>
-        {/* success days */}
-        <div>
+        <div style={{ marginBottom: '1.5rem' }}>
           <h3>成功天數 / 總天數</h3>
           <p>
             {this.state.me.successDay} / {this.props.auth.mission.days}
@@ -92,12 +97,25 @@ class ReportPage extends Component {
           <h3>初始投入金額</h3>
           <p>{this.props.auth.mission.money / 2}</p>
           <h3>贖回金額</h3>
-          <p>{this.state.me.bonus}</p>
+          <p className="text-main">+{this.state.me.bonus}</p>
         </div>
         {/* footer */}
-        <div style={{ backgroundImage: '../images/report.png' }}>
-          <h3>與朋友繼續提升專注度的旅程吧！</h3>
-          <button onClick={this.onHomepageClick}>前往首頁</button>
+        <div
+          style={{
+            backgroundImage: `url(${reportImg})`,
+            height: '8rem',
+            backgroundSize: 'cover',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '2rem'
+          }}
+        >
+          <h3 className="text-main">與朋友繼續提升專注度的旅程吧！</h3>
+          <button className="btn main" onClick={this.onHomepageClick}>
+            前往首頁
+          </button>
         </div>
       </div>
     );
