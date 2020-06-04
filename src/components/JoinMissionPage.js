@@ -7,6 +7,7 @@ import blueHeader from '../images/header_blue.png';
 
 class JoinMissionPage extends Component {
   onFormSubmit = async formValues => {
+    formValues.limitedWebsites = formValues.limitedWebsites.filter(w => !!w);
     await this.props.submitJoinMission(formValues);
   };
   render() {

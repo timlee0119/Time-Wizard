@@ -7,6 +7,7 @@ import orangeHeader from '../images/header_organge.png';
 
 class CreateMissionPage extends Component {
   onFormSubmit = async formValues => {
+    formValues.limitedWebsites = formValues.limitedWebsites.filter(w => !!w);
     await this.props.submitCreateMission(formValues);
   };
   render() {
