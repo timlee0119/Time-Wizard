@@ -131,11 +131,19 @@ function validate(values) {
 
   if (values.limitedWebsites) {
     const webSitesErrors = [];
+    var hasValidWebsite = false;
     values.limitedWebsites.forEach((w, i) => {
-      if (!isValidURI(w)) {
-        webSitesErrors[i] = '請輸入合法網址';
+      if (w) {
+        if (!isValidURI(w)) {
+          webSitesErrors[i] = '請輸入合法網址';
+        } else {
+          hasValidWebsite = true;
+        }
       }
     });
+    if (webSitesErrors.length === 0 && !hasValidWebsite) {
+      webSitesErrors[0] = '請至少輸入一個限制網站';
+    }
     errors.limitedWebsites = webSitesErrors;
   }
 
