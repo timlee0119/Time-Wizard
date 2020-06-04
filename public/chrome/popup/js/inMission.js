@@ -43,7 +43,10 @@ function renderMission(data) {
       setContent(`#limitTime_${w}`, getTime(par.limitTime));
       setContent(`#limitedWebsites_${w}`, getWebsiteIcons(par.limitedWebsites));
       setContent(`#totalDays_${w}`, days);
-      setContent(`#refreshTime_${w}`, new Date(startTime).toLocaleTimeString());
+      setContent(
+        `#refreshTime_${w}`,
+        new Date(startTime).toLocaleTimeString('en-US')
+      );
 
       // Testing!!!
       // drawTrendChart(
