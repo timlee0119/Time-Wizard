@@ -162,7 +162,13 @@ async function fetchUserData() {
 }
 
 async function updateUserStatus() {
-  const userData = await fetchUserData();
+  var userData;
+  try {
+    userData = await fetchUserData();
+  } catch (error) {
+    setTimeout(updateUserStatus, 3000); // might becuase internet not connected, try again later
+    return;
+  }
   console.log('updateUserStatus(): userData: ', userData);
 
   var userStatus;
