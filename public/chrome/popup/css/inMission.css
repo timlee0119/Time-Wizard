@@ -96,3 +96,10 @@ canvas.second {
 .digital-clock {
   margin-bottom: 0.5rem !important;
 }
+
+/* a workaround to allow scrolling on Mac (must specify height) */
+html,
+body,
+#popup_root {
+  height: 15rem;
+}
