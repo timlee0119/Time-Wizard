@@ -69,29 +69,31 @@ class WebsiteMonitor {
     monitor.socket.on('serverInit', () => {
       console.log('on serverInit');
       // start checking limited websites every second
-      monitor.intervalId = setInterval(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, function (
-          tabs
-        ) {
-          const currentTime = new Date();
-          var usingLimitedWebsite = false;
-          if (tabs[0]) {
-            const url = getHostname(tabs[0].url);
-            for (var w of monitor.limitedWebsites) {
-              if (url.includes(w)) {
-                usingLimitedWebsite = true;
-                break;
+      if (!monitor.intervalId) {
+        monitor.intervalId = setInterval(() => {
+          chrome.tabs.query({ active: true, currentWindow: true }, function (
+            tabs
+          ) {
+            const currentTime = new Date();
+            var usingLimitedWebsite = false;
+            if (tabs[0]) {
+              const url = getHostname(tabs[0].url);
+              for (var w of monitor.limitedWebsites) {
+                if (url.includes(w)) {
+                  usingLimitedWebsite = true;
+                  break;
+                }
               }
             }
-          }
-          const data = {
-            currentTime,
-            usingLimitedWebsite
-          };
-          console.log('emit clientUpdate: ', data);
-          monitor.socket.emit('clientUpdate', data);
-        });
-      }, 1000);
+            const data = {
+              currentTime,
+              usingLimitedWebsite
+            };
+            console.log('emit clientUpdate: ', data);
+            monitor.socket.emit('clientUpdate', data);
+          });
+        }, 1000);
+      }
     });
 
     monitor.socket.on('serverUpdate', mission => {
