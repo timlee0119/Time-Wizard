@@ -27,6 +27,11 @@ class WebsiteMonitor {
     this.createEvents(callback);
   }
 
+  pause() {
+    clearInterval(this.intervalId);
+    this.intervalId = undefined;
+  }
+
   stop() {
     if (this.socket) {
       this.socket.disconnect();
@@ -114,10 +119,10 @@ class WebsiteMonitor {
       }
     });
 
-    // monitor.socket.on('disconnect', () => {
-    //   console.log('server disconnected');
-    //   monitor.stop();
-    // });
+    monitor.socket.on('disconnect', () => {
+      console.log('socket disconnected, pausing website monitor');
+      monitor.pause();
+    });
   }
 }
 
@@ -269,6 +274,16 @@ chrome.runtime.onMessage.addListener(function (request) {
         `refreshUserStatus: new status = ${Object.keys(USER_STATUS)[status]}`
       );
     });
+  }
+});
+
+// when computer is locked, stop websiteMonitor
+chrome.idle.onStateChanged.addListener(function (newState) {
+  console.log('idle.onStateChanged: ', newState);
+  if (newState === 'locked') {
+    websiteMonitor.stop();
+  } else if (newState === 'active') {
+    updateUserStatus();
   }
 });
 
