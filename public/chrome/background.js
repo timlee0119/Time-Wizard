@@ -34,6 +34,7 @@ class WebsiteMonitor {
 
   stop() {
     if (this.socket) {
+      console.log('stopping websiteMonitor...');
       this.socket.disconnect();
       this.socket = undefined;
       clearInterval(this.intervalId);
@@ -122,8 +123,8 @@ class WebsiteMonitor {
     });
 
     monitor.socket.on('disconnect', () => {
-      console.log('socket disconnected, pausing website monitor');
-      monitor.pause();
+      console.log('socket disconnected, stopping website monitor');
+      monitor.stop();
     });
   }
 }

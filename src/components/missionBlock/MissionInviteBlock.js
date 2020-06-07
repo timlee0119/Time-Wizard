@@ -20,8 +20,6 @@ const MissionInviteBlock = ({ picture, code }) => {
         </p>
       </div>
 
-      {/* <h2>邀請代碼：</h2> */}
-      {/* <p style={{ margin: '0' }}>{code}</p> */}
       <CopyToClipboard text={code} onCopy={() => setCopied({ copied: true })}>
         <button className="btn second">點此複製邀請代碼</button>
       </CopyToClipboard>

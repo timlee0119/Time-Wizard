@@ -5,6 +5,7 @@ import MissionInfoBlock from './missionBlock/MissionInfoBlock';
 import MissionInviteBlock from './missionBlock/MissionInviteBlock';
 import profileBlue from '../images/profile_blue.png';
 import profileOrange from '../images/profile_orange.png';
+import startBackground from '../images/start_background.png';
 
 const MissionStarted = () => (
   <div style={{ margin: 'auto' }}>
@@ -14,38 +15,69 @@ const MissionStarted = () => (
   </div>
 );
 
+const Alert = ({ children }) => (
+  <div
+    style={{
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      zIndex: '9',
+      width: '100%',
+      height: '3rem',
+      backgroundColor: '#3589d1',
+      color: 'white',
+      fontSize: '1rem',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      opacity: '0.9'
+    }}
+  >
+    {children}
+  </div>
+);
+
 class MissionPage extends Component {
   state = {
     startBtnDisabled: false
   };
+
   onStartClick = async () => {
     this.setState({ startBtnDisabled: true });
     await this.props.submitStartMission();
     this.setState({ startBtnDisabled: false });
   };
 
-  renderStartButton(me, friend) {
+  renderActionHint(me, friend) {
     if (friend) {
       return me.owner ? (
-        <button
-          style={{ margin: 'auto' }}
-          className="btn main"
-          onClick={this.onStartClick}
-          disabled={this.state.startBtnDisabled}
+        <div
+          style={{
+            backgroundImage: `url(${startBackground})`,
+            height: '11.5rem',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '2rem 0'
+          }}
         >
-          立刻開始
-        </button>
+          <h3 className="text-main">夥伴已經加入了! 趕快點擊按鈕開始任務吧!</h3>
+          <button
+            className="btn main"
+            disabled={this.state.startBtnDisabled}
+            onClick={this.onStartClick}
+          >
+            任務開始
+          </button>
+        </div>
       ) : (
-        <button style={{ margin: 'auto' }} className="btn main" disabled={true}>
-          等待夥伴開始
-        </button>
+        <Alert>等待夥伴加入中 ......</Alert>
       );
     } else {
-      return (
-        <button style={{ margin: 'auto' }} className="btn main" disabled={true}>
-          等待夥伴加入
-        </button>
-      );
+      return <Alert>等待夥伴開始 ......</Alert>;
     }
   }
 
@@ -64,10 +96,8 @@ class MissionPage extends Component {
       <div className="card-block" style={{ display: 'flex', flexWrap: 'wrap' }}>
         <div style={{ flexGrow: '1' }}>
           <h1 className="text-main">{this.props.auth.mission.name}</h1>
+          {this.renderActionHint(me, friend)}
           <h2>任務資訊</h2>
-        </div>
-        <div style={{ flexGrow: '2', display: 'flex' }}>
-          {this.renderStartButton(me, friend)}
         </div>
         <div className="break"></div>
         <div

@@ -22,9 +22,8 @@ const MissionInfoBlock = ({ picture, participant, days, money, me }) => {
           <p style={{ margin: '0 0.5rem' }}>{w}</p>
         </div>
       ))}
-      {/* <p>使用時數趨勢</p> */}
-      <h2>兩人投注總金額</h2>
-      <p style={{ margin: '0' }}>{money}</p>
+      <h2>投注金額</h2>
+      <p style={{ margin: '0' }}>{money / 2}</p>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <h2 style={{ display: 'inline-block', marginRight: '0.5rem' }}>
           目前累積金額
