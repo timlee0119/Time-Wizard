@@ -125,6 +125,11 @@ class WebsiteMonitor {
     monitor.socket.on('disconnect', () => {
       console.log('socket disconnected, stopping website monitor');
       monitor.stop();
+
+      // handle accidentally disconnect (maybe wifi is suddenly off)
+      if (lastState !== 'locked') {
+        updateUserStatus();
+      }
     });
   }
 }
