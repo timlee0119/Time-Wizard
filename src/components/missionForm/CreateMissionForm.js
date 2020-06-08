@@ -12,7 +12,7 @@ class CreateMissionForm extends Component {
   renderDaileyMoney = () => {
     let { days, money } = this.props;
     if (days && money && validateMoney(money) === null) {
-      return `每日金額 ${(money / days).toFixed(1)} 元`;
+      return `單日獎金 ${(money / days).toFixed(1)} 元`;
     }
   };
   render() {
@@ -46,8 +46,8 @@ class CreateMissionForm extends Component {
             '2小時'
           ]}
           selectValues={[300, 600, 900, 1200, 1800, 2700, 3600, 7200]}
-          label="單日限制時間："
-          placeholder="請選擇單日限制時間"
+          label="單日限制時數："
+          placeholder="請選擇單日限制時數"
           button={
             <IconTooltip
               icon="help_outline"
@@ -60,7 +60,7 @@ class CreateMissionForm extends Component {
         <Field
           name="money"
           label="投入金額："
-          placeholder="請輸入金額"
+          placeholder="請輸入總投入金額"
           button={
             <IconTooltip
               icon="help_outline"

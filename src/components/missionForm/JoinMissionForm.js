@@ -38,7 +38,7 @@ class JoinMissionForm extends Component {
             '2小時'
           ]}
           selectValues={[300, 600, 900, 1200, 1800, 2700, 3600, 7200]}
-          label="單日限制時間："
+          label="單日限制時數："
           button={
             <IconTooltip
               icon="help_outline"
@@ -46,7 +46,7 @@ class JoinMissionForm extends Component {
               content={tooltipContents.limitTime}
             />
           }
-          placeholder="請選擇單日限制時間"
+          placeholder="請選擇單日限制時數"
           component={FormField}
         />
         <FieldArray

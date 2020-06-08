@@ -280,14 +280,16 @@ chrome.runtime.onMessage.addListener(function (request) {
   }
 });
 
+var lastState = 'active';
 // when computer is locked, stop websiteMonitor
 chrome.idle.onStateChanged.addListener(function (newState) {
   console.log('idle.onStateChanged: ', newState);
   if (newState === 'locked') {
     websiteMonitor.stop();
-  } else if (newState === 'active') {
+  } else if (newState === 'active' && lastState === 'locked') {
     updateUserStatus();
   }
+  lastState = newState;
 });
 
 console.log('background page loaded');

@@ -74,10 +74,10 @@ class MissionPage extends Component {
           </button>
         </div>
       ) : (
-        <Alert>等待夥伴加入中 ......</Alert>
+        <Alert>等待夥伴開始 ......</Alert>
       );
     } else {
-      return <Alert>等待夥伴開始 ......</Alert>;
+      return <Alert>等待夥伴加入中 ......</Alert>;
     }
   }
 
