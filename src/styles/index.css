@@ -91,6 +91,7 @@ p {
 
 .card-block {
   margin: 6% 8% 8% 8%;
+  width: 83%;
 }
 
 [class^='btn'] {

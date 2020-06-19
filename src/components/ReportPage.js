@@ -16,7 +16,6 @@ class ReportPage extends Component {
     this.state = { me, btnDisabled: false };
   }
 
-  // TODO: put chrome.runtime.sendMessage to action creator
   onHomepageClick = async () => {
     this.setState({ btnDisabled: true });
     await this.props.dismissMission();

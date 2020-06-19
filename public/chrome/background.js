@@ -34,7 +34,7 @@ class WebsiteMonitor {
 
   stop() {
     if (this.socket) {
-      console.log('stopping websiteMonitor...');
+      console.log('disconnecting this.socket in stop()...');
       this.socket.disconnect();
       this.socket = undefined;
       clearInterval(this.intervalId);
@@ -127,6 +127,7 @@ class WebsiteMonitor {
       monitor.stop();
 
       // handle accidentally disconnect (maybe wifi is suddenly off)
+      console.log('lastState: ', lastState);
       if (lastState !== 'locked') {
         updateUserStatus();
       }
@@ -289,12 +290,14 @@ var lastState = 'active';
 // when computer is locked, stop websiteMonitor
 chrome.idle.onStateChanged.addListener(function (newState) {
   console.log('idle.onStateChanged: ', newState);
+  // in order to tell monitor.socket.on('disconnected') not to restart
+  var lastStateTmp = lastState;
+  lastState = newState;
   if (newState === 'locked') {
     websiteMonitor.stop();
-  } else if (newState === 'active' && lastState === 'locked') {
+  } else if (newState === 'active' && lastStateTmp === 'locked') {
     updateUserStatus();
   }
-  lastState = newState;
 });
 
 console.log('background page loaded');
