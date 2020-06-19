@@ -75,7 +75,7 @@ class ReportPage extends Component {
           </div>
         </div>
         <div style={{ marginBottom: '1.5rem' }}>
-          <h3>限制網站</h3>
+          <h3>戒斷網站</h3>
           {this.state.me.limitedWebsites.map(w => (
             <div key={w} style={{ display: 'flex', alignItems: 'center' }}>
               <img

@@ -73,7 +73,7 @@ class CreateMissionForm extends Component {
         />
         <FieldArray
           name="limitedWebsites"
-          label="限制網站："
+          label="戒斷網站："
           component={FormFieldArray}
         />
         <div
@@ -142,7 +142,7 @@ function validate(values) {
       }
     });
     if (webSitesErrors.length === 0 && !hasValidWebsite) {
-      webSitesErrors[0] = '請至少輸入一個限制網站';
+      webSitesErrors[0] = '請至少輸入一個戒斷網站';
     }
     errors.limitedWebsites = webSitesErrors;
   }
