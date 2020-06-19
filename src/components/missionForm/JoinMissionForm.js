@@ -10,7 +10,12 @@ import tooltipContents from './tooltipContents';
 class JoinMissionForm extends Component {
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit}>
+      <form
+        onSubmit={this.props.handleSubmit}
+        onKeyPress={e => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
+      >
         <Field
           name="code"
           label="任務邀請代碼："

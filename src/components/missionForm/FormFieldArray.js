@@ -22,7 +22,7 @@ const FormFieldArray = ({ fields, label, meta: { error } }) => {
           title="Remove Website"
           onClick={() => fields.remove(index)}
         >
-          移除
+          Ｘ
         </button>
       );
     }

@@ -17,7 +17,12 @@ class CreateMissionForm extends Component {
   };
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit}>
+      <form
+        onSubmit={this.props.handleSubmit}
+        onKeyPress={e => {
+          if (e.key === 'Enter') e.preventDefault();
+        }}
+      >
         <Field
           name="name"
           label="任務名稱："
@@ -128,6 +133,10 @@ function validate(values) {
   });
 
   errors.money = validateMoney(values.money);
+
+  if (values.name && values.name.length > 30) {
+    errors.name = '任務名稱最長為 30 個字元';
+  }
 
   if (values.limitedWebsites) {
     const webSitesErrors = [];
