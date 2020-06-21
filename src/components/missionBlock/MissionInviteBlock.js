@@ -6,7 +6,7 @@ const MissionInviteBlock = ({ picture, code }) => {
   return (
     <div className="card inner" style={{ width: '45%' }}>
       <img src={picture} alt="friend" />
-      <div style={{ display: 'flex', margin: '1rem 0 3rem 0' }}>
+      <div style={{ display: 'flex', margin: '1rem 0 2rem 0' }}>
         <div>
           <span
             style={{ width: '2rem' }}
@@ -16,12 +16,14 @@ const MissionInviteBlock = ({ picture, code }) => {
           </span>
         </div>
         <p style={{ margin: '0' }} className="text-second">
-          趕快邀請朋友一同加入提升專注度的行列吧！
+          趕快邀請朋友一起來戒斷網站吧！
         </p>
       </div>
-
+      <h2 className="text-second">{`邀請代碼：${code}`}</h2>
       <CopyToClipboard text={code} onCopy={() => setCopied({ copied: true })}>
-        <button className="btn second">點此複製邀請代碼</button>
+        <button className="btn second" style={{ margin: '0.5rem 0' }}>
+          複製邀請代碼
+        </button>
       </CopyToClipboard>
       {copied && (
         <p className="text-second" style={{ fontWeight: 'bold' }}>
