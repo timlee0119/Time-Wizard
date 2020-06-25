@@ -6,11 +6,19 @@ const MissionInfoBlock = ({ picture, participant, days, money, me }) => {
   return (
     <div className="card inner" style={{ width: '45%', alignItems: 'start' }}>
       <img src={picture} alt="me" />
-      <h2 className={`text-${me ? 'main' : 'second'}`}>{participant.name}</h2>
+      <h2
+        className={`text-${me ? 'main' : 'second'}`}
+        style={{ marginTop: '1.5rem' }}
+      >
+        {participant.name}
+      </h2>
       {/* <p>今日已使用時數</p>
       {100} */}
       <h2>每日限制時數</h2>
-      <p className="digital-clock" style={{ margin: '0 0 1rem 0' }}>
+      <p
+        className="digital-clock"
+        style={{ margin: '0 0 0.5rem 0', fontSize: '2rem' }}
+      >
         {getTime(participant.limitTime)}
       </p>
       <h2>任務總天數</h2>

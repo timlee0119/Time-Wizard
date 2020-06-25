@@ -6,7 +6,7 @@ const MissionInviteBlock = ({ picture, code }) => {
   return (
     <div className="card inner" style={{ width: '45%' }}>
       <img src={picture} alt="friend" />
-      <div style={{ display: 'flex', margin: '1rem 0 2rem 0' }}>
+      <div style={{ display: 'flex', margin: '2rem 0' }}>
         <div>
           <span
             style={{ width: '2rem' }}

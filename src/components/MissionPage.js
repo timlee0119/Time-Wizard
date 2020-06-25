@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import MissionInfoBlock from './missionBlock/MissionInfoBlock';
 import MissionInviteBlock from './missionBlock/MissionInviteBlock';
+import Alert from './widgets/Alert';
 import profileBlue from '../images/profile_blue.png';
 import profileOrange from '../images/profile_orange.png';
 import startBackground from '../images/start_background.png';
@@ -12,28 +13,6 @@ const MissionStarted = () => (
     <h1 className="text-main">
       任務已經開始囉！現在可以點選插件圖示，開始監控使用情形
     </h1>
-  </div>
-);
-
-const Alert = ({ children }) => (
-  <div
-    style={{
-      position: 'fixed',
-      top: '0',
-      left: '0',
-      zIndex: '9',
-      width: '100%',
-      height: '3rem',
-      backgroundColor: '#3589d1',
-      color: 'white',
-      fontSize: '1rem',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      opacity: '0.9'
-    }}
-  >
-    {children}
   </div>
 );
 
@@ -77,7 +56,11 @@ class MissionPage extends Component {
         <Alert>等待夥伴開始 ......</Alert>
       );
     } else {
-      return <Alert>等待夥伴加入中 ......</Alert>;
+      return (
+        <Alert>
+          分享你的邀請代碼，請夥伴一起加入任務吧！頁面將在夥伴加入後重新整理。
+        </Alert>
+      );
     }
   }
 
@@ -95,7 +78,7 @@ class MissionPage extends Component {
     return (
       <div className="card-block" style={{ display: 'flex', flexWrap: 'wrap' }}>
         <div style={{ flexGrow: '1' }}>
-          <h1 className="text-main">{this.props.auth.mission.name}</h1>
+          <h1 className="text-main">{`任務名稱：${this.props.auth.mission.name}`}</h1>
           {this.renderActionHint(me, friend)}
           <h2>任務資訊</h2>
         </div>
